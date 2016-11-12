@@ -1,6 +1,6 @@
 # Hawkeye
 
-![alt tag](https://raw.githubusercontent.com/SunilRao01/Hawkeye/master/logo.jpg)
+![alt tag](https://raw.githubusercontent.com/SunilRao01/Hawkeye/master/logo.jpg=100x100)
 
 A web application that will inform users about their local government officials and their stances.
 
