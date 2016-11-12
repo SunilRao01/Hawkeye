@@ -1,6 +1,6 @@
 # Hawkeye
 
-<img src="https://raw.githubusercontent.com/SunilRao01/Hawkeye/master/logo.jpg" width="100" height="100"/>
+<img src="https://raw.githubusercontent.com/SunilRao01/Hawkeye/master/public/images/logo.jpg" width="100" height="100"/>
 
 A web application that will inform users about their local government officials and their stances.
 
