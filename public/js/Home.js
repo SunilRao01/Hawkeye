@@ -71,4 +71,12 @@ $(document).ready(function()
 		name: 'states',
 		source: states
 	});
+
+	// Hide local government info UI elements at start 
+	$("#govInfo").hide();
+
+	$("#searchState").click(function()
+	{
+		$("#govInfo").show();
+	});
 });
