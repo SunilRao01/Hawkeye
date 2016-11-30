@@ -1,0 +1,15 @@
+// Variables
+$background : black;
+$text-color: white;
+
+// Header
+.headerTitle {  margin-top: 5%; font-size: 3.0rem; line-height: 1.35; letter-spacing: -.08rem; text-align: center; color: $text-color; font-weight: bold;} 
+.headerTitleCaption { margin-top: 0; text-align: center; color: $text-color;}
+
+// Primary
+.button-primary { margin-top: 29px;}
+.labelInput { text-align: right; margin-right: 60px;}
+
+body { background-color: $background; }
+label { color: $text-color; }
+select { background-color: $background; color: $text-color; }
