@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/xml"
+	"encoding/json"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -35,6 +36,9 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 }
 
 func serveStateInfo(w http.ResponseWriter, r *http.Request) {
+	log.Println("Got request for state info: " + r.URL.Path)
+
+
 	resp, err := http.Get("http://www.senate.gov/general/contact_information/senators_cfm.xml")
 
 	if err != nil {
@@ -49,15 +53,35 @@ func serveStateInfo(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var s Senate
-	err_2 := xml.Unmarshal(body, &s)
+	var xmlSenate Senate
+	err_2 := xml.Unmarshal(body, &xmlSenate)
 	if err_2 != nil {
 		log.Printf("Error: %v", err_2)
 		return
 	}
 
-	log.Println("Got request for state info: " + r.URL.Path)
-	log.Println("Senator 1: " + s.Members[0].First_name + " " + s.Members[0].Last_name)
+	
+	ilSenators := findSenatorsByState("IL", xmlSenate);
+	log.Println("IL Senator 1: " + ilSenators[0].First_name + " " + ilSenators[0].Last_name);
+	log.Println("IL Senator 2: " + ilSenators[1].First_name + " " + ilSenators[1].Last_name);
+}
+
+func findSenatorsByState(state string, senators Senate) [2]Senator {
+	var stateSenators [2]Senator;
+	index := 0;
+	for i := range senators.Members {
+		if (senators.Members[i].State == state) {
+			if (index == 0) {
+				stateSenators[0] = senators.Members[i];
+			} else {
+				stateSenators[1] = senators.Members[i];
+			}
+
+			index++;
+		}
+	}
+
+	return stateSenators;
 }
 
 func main() {
