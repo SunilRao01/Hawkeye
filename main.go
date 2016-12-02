@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/xml"
-	//"encoding/json"
+	"encoding/json"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -61,9 +61,11 @@ func serveSenateInfo(w http.ResponseWriter, r *http.Request) {
 	}
 
 	inputState := r.URL.Path[len(r.URL.Path)-2:len(r.URL.Path)]
-	ilSenators := findSenatorsByState(inputState, xmlSenate);
-	log.Println(inputState + " Senator 1: " + ilSenators[0].First_name + " " + ilSenators[0].Last_name);
-	log.Println(inputState + " Senator 2: " + ilSenators[1].First_name + " " + ilSenators[1].Last_name);
+	stateSenators := findSenatorsByState(inputState, xmlSenate);
+
+	// Send state senator information response in JSON
+	w.Header().Set("Content-Type", "application/json");
+	json.NewEncoder(w).Encode(stateSenators);
 }
 
 func findSenatorsByState(state string, senators Senate) [2]Senator {

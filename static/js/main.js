@@ -5,7 +5,7 @@ function getResults() {
 	console.log(state);
 
 	// Send server side 'GET' request, server side will render
-	httpGetAsync("/senators/" + state, setStateInfo());
+	httpGetAsync("/senators/" + state, setStateInfo);
 }
 
 function httpGetAsync(theUrl, callback) {
@@ -19,7 +19,8 @@ function httpGetAsync(theUrl, callback) {
     xmlHttp.send(null);
 }
 
-function setStateInfo()
+function setStateInfo(senateInfo)
 {
+	console.log("senate info response: " + senateInfo);
 	console.log("Settings state info...");
 }
