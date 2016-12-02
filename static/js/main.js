@@ -1,0 +1,25 @@
+function getResults() {
+	// Retrite selected option
+	var index = document.getElementById("state").selectedIndex;
+	var state = document.getElementById("state").options[index].value;
+	console.log(state);
+
+	// Send server side 'GET' request, server side will render
+	httpGetAsync("/states/" + state, setStateInfo());
+}
+
+function httpGetAsync(theUrl, callback) {
+    var xmlHttp = new XMLHttpRequest();
+
+    xmlHttp.onreadystatechange = function() { 
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            callback(xmlHttp.responseText);
+    }
+    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+    xmlHttp.send(null);
+}
+
+function setStateInfo()
+{
+	console.log("Settings state info...");
+}
