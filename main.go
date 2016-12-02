@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/xml"
-	"encoding/json"
+	//"encoding/json"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -35,7 +35,7 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "."+r.URL.Path)
 }
 
-func serveStateInfo(w http.ResponseWriter, r *http.Request) {
+func serveSenateInfo(w http.ResponseWriter, r *http.Request) {
 	log.Println("Got request for state info: " + r.URL.Path)
 
 
@@ -60,10 +60,10 @@ func serveStateInfo(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	
-	ilSenators := findSenatorsByState("IL", xmlSenate);
-	log.Println("IL Senator 1: " + ilSenators[0].First_name + " " + ilSenators[0].Last_name);
-	log.Println("IL Senator 2: " + ilSenators[1].First_name + " " + ilSenators[1].Last_name);
+	inputState := r.URL.Path[len(r.URL.Path)-2:len(r.URL.Path)]
+	ilSenators := findSenatorsByState(inputState, xmlSenate);
+	log.Println(inputState + " Senator 1: " + ilSenators[0].First_name + " " + ilSenators[0].Last_name);
+	log.Println(inputState + " Senator 2: " + ilSenators[1].First_name + " " + ilSenators[1].Last_name);
 }
 
 func findSenatorsByState(state string, senators Senate) [2]Senator {
@@ -89,7 +89,7 @@ func main() {
 	http.HandleFunc("/", serveHome)
 
 	// Serve state information
-	http.HandleFunc("/states/", serveStateInfo)
+	http.HandleFunc("/senators/", serveSenateInfo)
 
 	http.ListenAndServe(":8080", nil)
 }

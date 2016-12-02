@@ -5,7 +5,7 @@ function getResults() {
 	console.log(state);
 
 	// Send server side 'GET' request, server side will render
-	httpGetAsync("/states/" + state, setStateInfo());
+	httpGetAsync("/senators/" + state, setStateInfo());
 }
 
 function httpGetAsync(theUrl, callback) {
