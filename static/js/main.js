@@ -4,8 +4,11 @@ function getResults() {
 	var state = document.getElementById("state").options[index].value;
 	console.log(state);
 
-	// Send server side 'GET' request, server side will render
-	httpGetAsync("/senators/" + state, setStateInfo);
+	// LEGISLATIVE
+	// Get state senators
+	httpGetAsync("/senators/" + state, setSenateInfo);
+	// Get state representatives
+	httpGetAsync("/representatives/" + state, setRepsInfo);
 }
 
 function httpGetAsync(theUrl, callback) {
@@ -19,8 +22,12 @@ function httpGetAsync(theUrl, callback) {
     xmlHttp.send(null);
 }
 
-function setStateInfo(senateInfo)
-{
+function setSenateInfo(senateInfo) {
 	console.log("senate info response: " + senateInfo);
-	console.log("Settings state info...");
+	console.log("Settings senate info...");
+}
+
+function setRepsInfo(repsInfo) {
+	console.log("representatives info response: " + repsInfo);
+	console.log("Settings HouseOfReps info...");
 }
