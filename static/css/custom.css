@@ -29,7 +29,13 @@ select {
   background-color: black;
   color: white; }
 
-.branch, .scopeBranch {
+hr {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px; }
+
+.branch, .scopeBranch, .groupBranch {
   background-color: #1a1a1a;
   color: white;
   margin-right: 10px;
@@ -43,25 +49,50 @@ select {
 .scopeBranch {
   background-color: #404040; }
 
-.card {
-  background-color: #666666;
-  color: white; }
+.groupBranch {
+  background-color: #666666; }
 
-.card-name {
+.card, .card-D, .card-R {
+  background-color: #666666;
+  color: white;
+  border-spacing: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px; }
+
+.card-D {
+  background-color: #5577aa; }
+
+.card-R {
+  background-color: #b54a4a; }
+
+.card-element, .card-name, .card-state, .card-image {
   center: true;
   text-align: center;
-  font-weight: normal;
+  font-weight: normal; }
+
+.card-name {
   padding-top: 5px; }
 
 .card-state {
-  center: true;
-  text-align: center;
-  font-weight: normal;
   line-height: 1%; }
 
 .card-image {
-  width: 200px;
-  height: 200px;
-  background: url("https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcS_n2CaDKRB5SSLDLpRjp9LLq2Z-s-pIxQxh32GZgThzxU7pJcwxA"); }
+  line-height: 50%; }
+
+.card-label {
+  text-align: left;
+  font-weight: bold;
+  padding-bottom: 0px;
+  padding-top: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px; }
+
+.card-description {
+  text-align: left;
+  font-weight: normal;
+  padding-bottom: 0px;
+  padding-top: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px; }
 
 /*# sourceMappingURL=custom.css.map */
