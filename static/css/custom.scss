@@ -29,7 +29,6 @@ $text-color: white;
 .labelInput 
 { 
 	text-align: left; 
-	margin-right: 104px;
 }
 
 
@@ -55,12 +54,16 @@ hr { margin-top: 0px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px;
 .scopeBranch
 {
 	@extend .branch;
+	margin-right: 10px;
+	margin-left: 10px;
 	background-color: #404040;
 }
 
 .groupBranch
 {
 	@extend .branch;
+	margin-right: 10px;
+	margin-left: 10px;
 	background-color: #666666;
 }
 
@@ -126,4 +129,5 @@ hr { margin-top: 0px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px;
 	padding-top: 0px;
 	margin-top: 0px;
 	margin-bottom: 0px;
+	word-wrap: break-word;
 }

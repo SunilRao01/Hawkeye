@@ -17,8 +17,7 @@
   margin-top: 29px; }
 
 .labelInput {
-  text-align: left;
-  margin-right: 104px; }
+  text-align: left; }
 
 body {
   background-color: black; }
@@ -48,9 +47,13 @@ hr {
   line-height: 200%; }
 
 .scopeBranch {
+  margin-right: 10px;
+  margin-left: 10px;
   background-color: #404040; }
 
 .groupBranch {
+  margin-right: 10px;
+  margin-left: 10px;
   background-color: #666666; }
 
 .card, .card-D, .card-R {
@@ -94,6 +97,7 @@ hr {
   padding-bottom: 0px;
   padding-top: 0px;
   margin-top: 0px;
-  margin-bottom: 0px; }
+  margin-bottom: 0px;
+  word-wrap: break-word; }
 
 /*# sourceMappingURL=custom.css.map */
