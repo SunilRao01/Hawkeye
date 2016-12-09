@@ -29,4 +29,39 @@ select {
   background-color: black;
   color: white; }
 
+.branch, .scopeBranch {
+  background-color: #1a1a1a;
+  color: white;
+  margin-right: 10px;
+  margin-left: 10px;
+  padding-top: 5px;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  font-weight: bold;
+  line-height: 200%; }
+
+.scopeBranch {
+  background-color: #404040; }
+
+.card {
+  background-color: #666666;
+  color: white; }
+
+.card-name {
+  center: true;
+  text-align: center;
+  font-weight: normal;
+  padding-top: 5px; }
+
+.card-state {
+  center: true;
+  text-align: center;
+  font-weight: normal;
+  line-height: 1%; }
+
+.card-image {
+  width: 200px;
+  height: 200px;
+  background: url("https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcS_n2CaDKRB5SSLDLpRjp9LLq2Z-s-pIxQxh32GZgThzxU7pJcwxA"); }
+
 /*# sourceMappingURL=custom.css.map */

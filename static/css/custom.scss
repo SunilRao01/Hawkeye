@@ -3,13 +3,83 @@ $background : black;
 $text-color: white;
 
 // Header
-.headerTitle {  margin-top: 5%; font-size: 3.0rem; line-height: 1.35; letter-spacing: -.08rem; text-align: center; color: $text-color; font-weight: bold;} 
-.headerTitleCaption { margin-top: 0; text-align: center; color: $text-color;}
+.headerTitle 
+{  
+	margin-top: 5%; 
+	font-size: 3.0rem; 
+	line-height: 1.35; 
+	letter-spacing: -.08rem; 
+	text-align: center; 
+	color: $text-color; 
+	font-weight: bold;
+} 
+.headerTitleCaption 
+{ 
+	margin-top: 0; 
+	text-align: center; 
+	color: $text-color;
+}
 
 // Primary
-.button-primary { margin-top: 29px;}
-.labelInput { text-align: right; margin-right: 104px;}
+.button-primary 
+{ 
+	margin-top: 29px;
+}
+.labelInput 
+{ 
+	text-align: right; 
+	margin-right: 104px;
+}
+
+
 
 body { background-color: $background; }
 label { color: $text-color; }
 select { background-color: $background; color: $text-color; }
+
+.branch 
+{ 
+	background-color: #1a1a1a;
+	color: $text-color;
+	margin-right: 10px;
+	margin-left: 10px;
+	padding-top: 5px;
+	padding-left: 10px;
+	padding-bottom: 10px;
+	font-weight: bold;
+	line-height: 200%;
+}
+
+.scopeBranch
+{
+	@extend .branch;
+	background-color: #404040;
+}
+
+.card
+{
+	background-color: #666666;
+	color: $text-color;
+}
+
+// Card Elements
+.card-name
+{
+	center: true;
+	text-align: center;
+	font-weight: normal;
+	padding-top: 5px;
+}
+.card-state
+{
+	center: true;
+	text-align: center;
+	font-weight: normal;
+	line-height: 1%;
+}
+.card-image
+{
+	width:200px;
+    height:200px;
+	background: url('https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcS_n2CaDKRB5SSLDLpRjp9LLq2Z-s-pIxQxh32GZgThzxU7pJcwxA');
+}
