@@ -10,7 +10,8 @@
 .headerTitleCaption {
   margin-top: 0;
   text-align: center;
-  color: white; }
+  color: white;
+  margin-bottom: 10px; }
 
 .button-primary {
   margin-top: 29px; }
