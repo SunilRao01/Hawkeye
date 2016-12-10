@@ -55,11 +55,6 @@ type Member struct {
 	Website string `json:"link"`
 }
 
-// Serve HTML
-func serveHome(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "."+r.URL.Path)
-}
-
 // Serve JSON
 func serveSenateInfo(w http.ResponseWriter, r *http.Request) {
 	inputState := r.URL.Path[len(r.URL.Path)-2:len(r.URL.Path)]
@@ -147,6 +142,11 @@ func findSenatorsByState(state string, senators Senate) [2]Senator {
 	}
 
 	return stateSenators;
+}
+
+// Serve HTML
+func serveHome(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "./public" + r.URL.Path)
 }
 
 func main() {
