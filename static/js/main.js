@@ -97,7 +97,8 @@ function assignSenatorCards()
 	currentTemplate = currentTemplate.replace("[[WEBSITE]]", jsonSenate[cardIndex].Website.toString());
 	currentTemplate = currentTemplate.replace("[[CONTACT]]", jsonSenate[cardIndex].Email.toString());
 	currentTemplate = currentTemplate.replace("[[CONTACT]]", jsonSenate[cardIndex].Email.toString());
-	//currentTemplate = currentTemplate.replace("[[IMAGE]]", jsonSenate[cardIndex].Email.toString());
+
+
 
 	if (cardIndex < jsonSenate.length-1) {
 		cardIndex++;
@@ -134,6 +135,9 @@ function assignRepresentativeCard()
 	currentTemplate = currentTemplate.replace("[[WEBSITE]]", jsonReps.objects[cardIndex].person.link.toString());
 	currentTemplate = currentTemplate.replace("[[CONTACT]]", jsonReps.objects[cardIndex].extra.contact_form.toString());
 	currentTemplate = currentTemplate.replace("[[CONTACT]]", jsonReps.objects[cardIndex].extra.contact_form.toString());
+
+	//currentTemplate = currentTemplate.replace("[[IMAGE]]", jsonSenate[cardIndex].Email.toString());
+	currentTemplate = currentTemplate.replace("[[IMAGE]]", "/static/images/sample-person.jpg");
 
 	if (cardIndex < jsonReps.objects.length-1) {
 		cardIndex++;
