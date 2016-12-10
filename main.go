@@ -50,6 +50,8 @@ type Extra struct {
 }
 
 type Member struct {
+	Bioguideid string `json:"bioguideid"`
+	Name string `json:"name"`
 	First_name string `json:"firstname"`
 	Last_name string `json:"lastname"`
 	Full_name string `json:"full_name"`

@@ -130,7 +130,6 @@ function assignRepresentativeCard()
 	}
 
 	var currentTemplate = federalHouseOfRepsPartial.slice();
-	console.log("Rep: " + jsonReps.objects[cardIndex].person.firstname.toString());
 	currentTemplate = currentTemplate.replace("[[FIRSTNAME]]", jsonReps.objects[cardIndex].person.firstname.toString());
 	currentTemplate = currentTemplate.replace("[[LASTNAME]]", jsonReps.objects[cardIndex].person.lastname.toString());
 	currentTemplate = currentTemplate.replace("[[STATE]]", jsonReps.objects[cardIndex].state.toString());
@@ -140,8 +139,12 @@ function assignRepresentativeCard()
 	currentTemplate = currentTemplate.replace("[[CONTACT]]", jsonReps.objects[cardIndex].extra.contact_form.toString());
 	currentTemplate = currentTemplate.replace("[[CONTACT]]", jsonReps.objects[cardIndex].extra.contact_form.toString());
 
-	//currentTemplate = currentTemplate.replace("[[IMAGE]]", jsonSenate[cardIndex].Email.toString());
-	currentTemplate = currentTemplate.replace("[[IMAGE]]", "/static/images/sample-person.jpg");
+	console.log('bioguide id: ' + jsonReps.objects[cardIndex].person.bioguideid.toString());
+	var imageUrl = "https://theunitedstates.io/images/congress/225x275/"
+	imageUrl += jsonReps.objects[cardIndex].person.bioguideid.toString() + ".jpg";
+
+	currentTemplate = currentTemplate.replace("[[IMAGE]]", imageUrl);
+	//currentTemplate = currentTemplate.replace("[[IMAGE]]", "/static/images/sample-person.jpg");//imageUrl);
 
 	if (cardIndex < jsonReps.objects.length-1) {
 		cardIndex++;
@@ -152,7 +155,7 @@ function assignRepresentativeCard()
 	counter++;
 	currentCard.innerHTML = currentTemplate;
 	currentCard.style.opacity = 1;
-	
+
 	return currentCard;
 }
 
@@ -203,7 +206,6 @@ function setSenateInfo(senateInfo) {
 function setRepsInfo(repsInfo) {
 	//console.log("representatives info response: " + repsInfo);
 	jsonReps = JSON.parse(repsInfo);
-	var keys = Object.keys(jsonReps.objects[0]);
-	console.log('rep key 1: ' + keys[0]);
+	console.log(repsInfo);
 	populateHouseOfRepsUI();
 }

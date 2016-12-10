@@ -47,31 +47,31 @@ hr {
   font-weight: bold;
   line-height: 200%;
   opacity: 0;
-  transition: opacity 3s; }
+  transition: opacity 1s; }
 
 .scopeBranch {
   margin-right: 10px;
   margin-left: 10px;
   background-color: #404040;
-  transition: opacity 5s; }
+  transition: opacity 2s; }
 
 .groupBranch {
   margin-right: 10px;
   margin-left: 10px;
   background-color: #666666;
-  transition: opacity 7s; }
+  transition: opacity 3s; }
 
 .card, .card-D, .card-R, .card-I {
   background-color: #666666;
   color: white;
   border-spacing: 5px;
   margin-top: 10px;
-  height: 400px;
+  height: 500px;
   width: 80%;
   display: block;
   text-shadow: 1px 1px 2px black;
   box-shadow: 4px 4px 5px black;
-  transition: opacity 7s; }
+  transition: opacity 1s; }
 
 .card-D {
   background-color: #5577aa; }
