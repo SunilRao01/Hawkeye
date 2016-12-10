@@ -52,6 +52,7 @@ type Extra struct {
 type Member struct {
 	First_name string `json:"firstname"`
 	Last_name string `json:"lastname"`
+	Full_name string `json:"full_name"`
 	Website string `json:"link"`
 }
 

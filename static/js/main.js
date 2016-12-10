@@ -5,29 +5,33 @@ var houseOfRepsContainer = document.getElementById('houseOfRepsCardContainer');
 function populateSenateUI() {
 	var currentRow = document.createElement('div');
 
-	senateContainer.style.display = "none";
-	while (currentRow.childElementCount > 0) {
+	// Remove all rows of previous cards
+	while (senateContainer.firstChild) {
+		senateContainer.removeChild(senateContainer.firstChild);
+	}
+
+	while (currentRow.firstChild) {
 		currentRow.removeChild(currentRow.firstChild);
 	}
 
 	var newCard = document.createElement('div');
 	newCard.innerHTML = federalSenatePartial;
 	currentRow.className = 'row';
+	currentRow.id = 'row';
 	currentRow.appendChild(assignSenatorCards());
 	currentRow.appendChild(assignSenatorCards());
 
 	senateContainer.appendChild(currentRow);	
-
-	senateContainer.style.display = "block";
-
-	// DISPLAY REPS
-	//populateHouseOfRepsUI();
 }
 
 function populateHouseOfRepsUI() {
 	var currentRow = document.createElement('div');
 
-	houseOfRepsContainer.style.display = "none";
+	// Remove all rows of previous cards
+	while (houseOfRepsContainer.firstChild) {
+		houseOfRepsContainer.removeChild(houseOfRepsContainer.firstChild);
+	}
+
 	while (currentRow.firstChild) {
 		currentRow.removeChild(currentRow.firstChild);
 	}
@@ -108,7 +112,7 @@ function assignSenatorCards()
 
 	counter++;
 	currentCard.innerHTML = currentTemplate;
-
+	currentCard.style.opacity = 1;
 	return currentCard;
 }
 
@@ -147,7 +151,8 @@ function assignRepresentativeCard()
 
 	counter++;
 	currentCard.innerHTML = currentTemplate;
-
+	currentCard.style.opacity = 1;
+	
 	return currentCard;
 }
 
@@ -187,8 +192,13 @@ function setSenateInfo(senateInfo) {
 	//console.log("senate info: " + senateInfo);
 	jsonSenate = JSON.parse(senateInfo);
 
+	document.getElementById('branch').style.opacity = 1;
+	document.getElementById('scopeBranch').style.opacity = 1;
+	document.getElementById('groupBranch1').style.opacity = 1;
+	document.getElementById('groupBranch2').style.opacity = 1;
 	populateSenateUI();
 }
+
 
 function setRepsInfo(repsInfo) {
 	//console.log("representatives info response: " + repsInfo);
