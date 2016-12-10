@@ -10,3 +10,5 @@ The frameworks used are:
 - Go (Server side)
 - Skeleton (CSS Boilerplate)
 - SASS
+
+You can try out the application in its current state over here: http://ec2-54-148-22-164.us-west-2.compute.amazonaws.com:3000/
