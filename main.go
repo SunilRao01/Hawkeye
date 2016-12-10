@@ -46,13 +46,13 @@ type Representative struct {
 
 type Extra struct {
 	Address string `json:"address"`
-	ContactForm string `json:"contact_form"`
+	Email string `json:"contact_form"`
 }
 
 type Member struct {
-	FirstName string `json:"firstname"`
-	LastName string `json:"lastname"`
-	Link string `json:"link"`
+	First_name string `json:"firstname"`
+	Last_name string `json:"lastname"`
+	Website string `json:"link"`
 }
 
 // Serve HTML

@@ -1,18 +1,11 @@
 
-
-var currentRow = document.createElement('div');
 var senateContainer = document.getElementById('senateCardContainer');
 var houseOfRepsContainer = document.getElementById('houseOfRepsCardContainer');
 
-function delayDisplay(newState) {
-	setTimeout(function() {
-		senateContainer.style.display = "block";
-	}, 100);
-}
-
 function populateSenateUI() {
+	var currentRow = document.createElement('div');
+
 	senateContainer.style.display = "none";
-	
 	while (currentRow.childElementCount > 0) {
 		currentRow.removeChild(currentRow.firstChild);
 	}
@@ -26,12 +19,15 @@ function populateSenateUI() {
 	senateContainer.appendChild(currentRow);	
 
 	senateContainer.style.display = "block";
+
+	// DISPLAY REPS
+	//populateHouseOfRepsUI();
 }
 
 function populateHouseOfRepsUI() {
-	while (houseOfRepsContainer.firstChild) {
-		houseOfRepsContainer.removeChild(houseOfRepsContainer.firstChild);
-	}
+	var currentRow = document.createElement('div');
+
+	houseOfRepsContainer.style.display = "none";
 	while (currentRow.firstChild) {
 		currentRow.removeChild(currentRow.firstChild);
 	}
@@ -39,36 +35,36 @@ function populateHouseOfRepsUI() {
 	// Populate federal senate info
 	cardIndex = 0;
 	var newCard = document.createElement('div');
-	newCard.innerHTML = federalSenatePartial;
+	newCard.innerHTML = federalHouseOfRepsPartial;
 
 	
 	currentRow.className = 'row';
+	console.log('jsonReps length: ' + jsonReps.objects.length);
 	var i = 0;
-	for (i = 0; i < jsonSenate.length; i++) {
+	for (i = 0; i < jsonReps.objects.length; i++) {
 		if (currentRow.childElementCount == 3) {
-			senateContainer.appendChild(currentRow);
-			
+			houseOfRepsContainer.appendChild(currentRow);
 
 			currentRow = document.createElement('div');
 			currentRow.className = 'row';
 			
-			currentRow.appendChild(getAnotherCard());
-		} else if (i == jsonSenate.length-1) {
+			currentRow.appendChild(assignRepresentativeCard());
+		} else if (i == jsonReps.objects.length-1) {
 			var currentCard = document.createElement('div');
 			currentCard.className = "one-half column";
 			
-			currentRow.appendChild(getAnotherCard());
+			currentRow.appendChild(assignRepresentativeCard());
 
 			senateContainer.appendChild(currentRow);
 		} else {
-			currentRow.appendChild(getAnotherCard());
+			currentRow.appendChild(assignRepresentativeCard());
 		}
 	}
 	
 	// Add last row of federal senators
-	senateContainer.appendChild(currentRow);	
+	houseOfRepsContainer.appendChild(currentRow);	
 
-	delayDisplay();
+	houseOfRepsContainer.style.display = "block";
 }
 
 
@@ -90,7 +86,6 @@ function assignSenatorCards()
 		currentCard.className += " card-D ";
 	} else if (jsonSenate[cardIndex].Party == "I") {
 		currentCard.className += " card-I ";
-
 	}
 
 	var currentTemplate = federalSenatePartial.slice();
@@ -102,6 +97,7 @@ function assignSenatorCards()
 	currentTemplate = currentTemplate.replace("[[WEBSITE]]", jsonSenate[cardIndex].Website.toString());
 	currentTemplate = currentTemplate.replace("[[CONTACT]]", jsonSenate[cardIndex].Email.toString());
 	currentTemplate = currentTemplate.replace("[[CONTACT]]", jsonSenate[cardIndex].Email.toString());
+	//currentTemplate = currentTemplate.replace("[[IMAGE]]", jsonSenate[cardIndex].Email.toString());
 
 	if (cardIndex < jsonSenate.length-1) {
 		cardIndex++;
@@ -115,13 +111,45 @@ function assignSenatorCards()
 	return currentCard;
 }
 
+var jsonReps = {};
+function assignRepresentativeCard()
+{
+	var currentCard = document.createElement('div');
+	currentCard.className = "one-third column";
+	if (jsonReps.objects[cardIndex].party == "Republican") {
+		currentCard.className += " card-R ";
+	} else if (jsonReps.objects[cardIndex].party == "Democrat") {
+		currentCard.className += " card-D ";
+	} else if (jsonReps.objects[cardIndex].party == "Independent") {
+		currentCard.className += " card-I ";
+	}
 
+	var currentTemplate = federalHouseOfRepsPartial.slice();
+	console.log("Rep: " + jsonReps.objects[cardIndex].person.firstname.toString());
+	currentTemplate = currentTemplate.replace("[[FIRSTNAME]]", jsonReps.objects[cardIndex].person.firstname.toString());
+	currentTemplate = currentTemplate.replace("[[LASTNAME]]", jsonReps.objects[cardIndex].person.lastname.toString());
+	currentTemplate = currentTemplate.replace("[[STATE]]", jsonReps.objects[cardIndex].state.toString());
+	currentTemplate = currentTemplate.replace("[[PARTY]]", jsonReps.objects[cardIndex].party.toString());
+	currentTemplate = currentTemplate.replace("[[WEBSITE]]", jsonReps.objects[cardIndex].person.link.toString());
+	currentTemplate = currentTemplate.replace("[[WEBSITE]]", jsonReps.objects[cardIndex].person.link.toString());
+	currentTemplate = currentTemplate.replace("[[CONTACT]]", jsonReps.objects[cardIndex].extra.contact_form.toString());
+	currentTemplate = currentTemplate.replace("[[CONTACT]]", jsonReps.objects[cardIndex].extra.contact_form.toString());
+
+	if (cardIndex < jsonReps.objects.length-1) {
+		cardIndex++;
+	} else {
+		cardIndex = 0;
+	}
+
+	counter++;
+	currentCard.innerHTML = currentTemplate;
+
+	return currentCard;
+}
 
 function getResults() {
 	senateContainer = document.getElementById('senateCardContainer');
-
-	// Hide cards before they're loaded
-	senateContainer.style.display = "none";
+	houseOfRepsContainer = document.getElementById('houseOfRepsCardContainer')
 
 	// Retrite selected option
 	var index = document.getElementById("state").selectedIndex;
@@ -135,6 +163,10 @@ function getResults() {
 	httpGetAsync("/representatives/" + state, setRepsInfo);
 }
 
+
+
+
+// handle GET Requests for 
 function httpGetAsync(theUrl, callback) {
     var xmlHttp = new XMLHttpRequest();
 
@@ -147,18 +179,17 @@ function httpGetAsync(theUrl, callback) {
     xmlHttp.send(null);
 }
 
-
-
 function setSenateInfo(senateInfo) {
-	console.log("senate info: " + senateInfo);
+	//console.log("senate info: " + senateInfo);
 	jsonSenate = JSON.parse(senateInfo);
 
 	populateSenateUI();
 }
 
 function setRepsInfo(repsInfo) {
-	console.log("representatives info response: " + repsInfo);
-	//console.log("Settings HouseOfReps info...");
-
-	//populateHouseOfRepsUI();
+	//console.log("representatives info response: " + repsInfo);
+	jsonReps = JSON.parse(repsInfo);
+	var keys = Object.keys(jsonReps.objects[0]);
+	console.log('rep key 1: ' + keys[0]);
+	populateHouseOfRepsUI();
 }
