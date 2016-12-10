@@ -22,11 +22,37 @@ var federalSenatePartial =
 `;
 
 var currentRow = document.createElement('div');
-var container;
+var container = document.getElementById('cardContainer');
+
+function delayDisplay(newState) {
+	setTimeout(function() {
+		container.style.display = "block";
+	}, 500);
+}
+
 function populateUI()
 {
-	container = document.getElementById('cardContainer');
+	container.style.display = "none";
 	
+	while (currentRow.childElementCount > 0) {
+		currentRow.removeChild(currentRow.firstChild);
+	}
+	console.log('senate row col count: ' + currentRow.childElementCount);
+
+	var newCard = document.createElement('div');
+	newCard.innerHTML = federalSenatePartial;
+	currentRow.className = 'row';
+	currentRow.appendChild(assignSenatorCards());
+	currentRow.appendChild(assignSenatorCards());
+
+	container.appendChild(currentRow);	
+
+	delayDisplay();
+
+	/*
+	while (container.firstChild) {
+		container.removeChild(container.firstChild);
+	}
 
 	// Populate federal senate info
 	cardIndex = 0;
@@ -45,28 +71,26 @@ function populateUI()
 			currentRow.className = 'row';
 			
 			currentRow.appendChild(getAnotherCard());
-			
 		} else if (i == jsonSenate.length-1) {
-
 			var currentCard = document.createElement('div');
 			currentCard.className = "one-half column";
 			
-			
-
 			currentRow.appendChild(getAnotherCard());
 
 			container.appendChild(currentRow);
 		} else {
-			// TODO: Would actually get the card ready, not dummies like now
 			currentRow.appendChild(getAnotherCard());
 		}
 	}
-	while (container.firstChild) {
-		container.removeChild(container.firstChild);
-	}
+	
 	// Add last row of federal senators
 	container.appendChild(currentRow);	
+
+	delayDisplay();
+	*/
 }
+
+
 
 function replaceAll(str, find, replace) {
   return str.replace(new RegExp(find, 'g'), replace);
@@ -75,7 +99,7 @@ function replaceAll(str, find, replace) {
 var jsonSenate = {};
 var counter = 0;
 var cardIndex = 0;
-function getAnotherCard()
+function assignSenatorCards()
 {
 	var currentCard = document.createElement('div');
 	currentCard.className = "one-half column";
@@ -86,7 +110,7 @@ function getAnotherCard()
 	}
 
 	var currentTemplate = federalSenatePartial.slice();
-	 currentTemplate = currentTemplate.replace("[[FIRSTNAME]]", jsonSenate[cardIndex].First_name.toString());
+	currentTemplate = currentTemplate.replace("[[FIRSTNAME]]", jsonSenate[cardIndex].First_name.toString());
 	currentTemplate = currentTemplate.replace("[[LASTNAME]]", jsonSenate[cardIndex].Last_name.toString());
 	currentTemplate = currentTemplate.replace("[[STATE]]", jsonSenate[cardIndex].State.toString());
 	currentTemplate = currentTemplate.replace("[[PARTY]]", jsonSenate[cardIndex].Party.toString());
@@ -110,6 +134,11 @@ function getAnotherCard()
 
 
 function getResults() {
+	container = document.getElementById('cardContainer');
+
+	// Hide cards before they're loaded
+	container.style.display = "none";
+
 	// Retrite selected option
 	var index = document.getElementById("state").selectedIndex;
 	var state = document.getElementById("state").options[index].value;

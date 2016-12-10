@@ -40,7 +40,8 @@ hr {
   color: white;
   margin-right: 10px;
   margin-left: 10px;
-  padding-top: 5px;
+  margin-bottom: 10px;
+  padding-top: 2px;
   padding-left: 10px;
   padding-bottom: 10px;
   font-weight: bold;
@@ -61,7 +62,9 @@ hr {
   color: white;
   border-spacing: 5px;
   margin-top: 10px;
-  margin-bottom: 10px; }
+  height: 500px;
+  width: 80%;
+  display: block; }
 
 .card-D {
   background-color: #5577aa; }
@@ -87,17 +90,17 @@ hr {
   text-align: left;
   font-weight: bold;
   padding-bottom: 0px;
-  padding-top: 0px;
-  margin-top: 0px;
-  margin-bottom: 0px; }
+  margin-top: 10px;
+  margin-bottom: 0px;
+  line-height: 100%; }
 
 .card-description {
   text-align: left;
   font-weight: normal;
-  padding-bottom: 0px;
   padding-top: 0px;
-  margin-top: 0px;
+  margin-top: 10px;
   margin-bottom: 0px;
-  word-wrap: break-word; }
+  word-wrap: break-word;
+  line-height: 100%; }
 
 /*# sourceMappingURL=custom.css.map */
