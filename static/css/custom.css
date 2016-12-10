@@ -57,20 +57,25 @@ hr {
   margin-left: 10px;
   background-color: #666666; }
 
-.card, .card-D, .card-R {
+.card, .card-D, .card-R, .card-I {
   background-color: #666666;
   color: white;
   border-spacing: 5px;
   margin-top: 10px;
   height: 500px;
   width: 80%;
-  display: block; }
+  display: block;
+  text-shadow: 1px 1px 2px black;
+  box-shadow: 4px 4px 5px black; }
 
 .card-D {
   background-color: #5577aa; }
 
 .card-R {
   background-color: #b54a4a; }
+
+.card-I {
+  background-color: #a6a6a6; }
 
 .card-element, .card-name, .card-state, .card-image {
   center: true;

@@ -68,7 +68,7 @@ hr { margin-top: 0px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px;
 	background-color: #666666;
 }
 
-// Carrd outer layout
+// Card outer layout
 .card
 {
 	background-color: #666666;
@@ -78,6 +78,8 @@ hr { margin-top: 0px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px;
 	height: 500px;
 	width: 80%;
 	display: block;
+	text-shadow: 1px 1px 2px black;
+	box-shadow: 4px 4px 5px black;
 }
 
 .card-D
@@ -90,6 +92,12 @@ hr { margin-top: 0px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px;
 {
 	@extend .card;
 	background-color: #b54a4a;
+}
+
+.card-I
+{
+	@extend .card;
+	background-color: #a6a6a6;
 }
 
 // Card inner elements

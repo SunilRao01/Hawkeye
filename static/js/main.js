@@ -1,43 +1,21 @@
-var federalSenatePartial = 
-`
-  <h4 class="card-name">[[FIRSTNAME]] [[LASTNAME]]</h4>
-  <h6 class="card-state">[[STATE]]</h6>
-  <center><img class="u-max-full-width card-image" src="/static/images/sample-person.jpg"></center>
-  <div class="container">
-    <div class="row">
-      <p class="one-half column card-label">Party:</p>
-      <p class="one-half column card-description">[[PARTY]]</p>
-    </div>
-    <hr>
-    <div class="row">
-      <p class="one-half column card-label">Website:</p>
-      <a href="[[WEBSITE]]" target="_blank" class="one-half column card-description">[[WEBSITE]]</a>
-    </div>
-    <hr>
-    <div class="row">
-      <p class="one-half column card-label">Contact:</p>
-      <a href="[[CONTACT]]" class="one-half column card-description">[[CONTACT]]</p>
-    </div>
-  </div>
-`;
+
 
 var currentRow = document.createElement('div');
-var container = document.getElementById('cardContainer');
+var senateContainer = document.getElementById('senateCardContainer');
+var houseOfRepsContainer = document.getElementById('houseOfRepsCardContainer');
 
 function delayDisplay(newState) {
 	setTimeout(function() {
-		container.style.display = "block";
-	}, 500);
+		senateContainer.style.display = "block";
+	}, 100);
 }
 
-function populateUI()
-{
-	container.style.display = "none";
+function populateSenateUI() {
+	senateContainer.style.display = "none";
 	
 	while (currentRow.childElementCount > 0) {
 		currentRow.removeChild(currentRow.firstChild);
 	}
-	console.log('senate row col count: ' + currentRow.childElementCount);
 
 	var newCard = document.createElement('div');
 	newCard.innerHTML = federalSenatePartial;
@@ -45,13 +23,17 @@ function populateUI()
 	currentRow.appendChild(assignSenatorCards());
 	currentRow.appendChild(assignSenatorCards());
 
-	container.appendChild(currentRow);	
+	senateContainer.appendChild(currentRow);	
 
-	delayDisplay();
+	senateContainer.style.display = "block";
+}
 
-	/*
-	while (container.firstChild) {
-		container.removeChild(container.firstChild);
+function populateHouseOfRepsUI() {
+	while (houseOfRepsContainer.firstChild) {
+		houseOfRepsContainer.removeChild(houseOfRepsContainer.firstChild);
+	}
+	while (currentRow.firstChild) {
+		currentRow.removeChild(currentRow.firstChild);
 	}
 
 	// Populate federal senate info
@@ -64,7 +46,7 @@ function populateUI()
 	var i = 0;
 	for (i = 0; i < jsonSenate.length; i++) {
 		if (currentRow.childElementCount == 3) {
-			container.appendChild(currentRow);
+			senateContainer.appendChild(currentRow);
 			
 
 			currentRow = document.createElement('div');
@@ -77,17 +59,16 @@ function populateUI()
 			
 			currentRow.appendChild(getAnotherCard());
 
-			container.appendChild(currentRow);
+			senateContainer.appendChild(currentRow);
 		} else {
 			currentRow.appendChild(getAnotherCard());
 		}
 	}
 	
 	// Add last row of federal senators
-	container.appendChild(currentRow);	
+	senateContainer.appendChild(currentRow);	
 
 	delayDisplay();
-	*/
 }
 
 
@@ -107,6 +88,9 @@ function assignSenatorCards()
 		currentCard.className += " card-R ";
 	} else if (jsonSenate[cardIndex].Party == "D") {
 		currentCard.className += " card-D ";
+	} else if (jsonSenate[cardIndex].Party == "I") {
+		currentCard.className += " card-I ";
+
 	}
 
 	var currentTemplate = federalSenatePartial.slice();
@@ -134,10 +118,10 @@ function assignSenatorCards()
 
 
 function getResults() {
-	container = document.getElementById('cardContainer');
+	senateContainer = document.getElementById('senateCardContainer');
 
 	// Hide cards before they're loaded
-	container.style.display = "none";
+	senateContainer.style.display = "none";
 
 	// Retrite selected option
 	var index = document.getElementById("state").selectedIndex;
@@ -155,8 +139,9 @@ function httpGetAsync(theUrl, callback) {
     var xmlHttp = new XMLHttpRequest();
 
     xmlHttp.onreadystatechange = function() { 
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
             callback(xmlHttp.responseText);
+        }
     }
     xmlHttp.open("GET", theUrl, true); // true for asynchronous 
     xmlHttp.send(null);
@@ -165,13 +150,15 @@ function httpGetAsync(theUrl, callback) {
 
 
 function setSenateInfo(senateInfo) {
+	console.log("senate info: " + senateInfo);
 	jsonSenate = JSON.parse(senateInfo);
 
-
-	populateUI();
+	populateSenateUI();
 }
 
 function setRepsInfo(repsInfo) {
-	//console.log("representatives info response: " + repsInfo);
+	console.log("representatives info response: " + repsInfo);
 	//console.log("Settings HouseOfReps info...");
+
+	//populateHouseOfRepsUI();
 }
