@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/xml"
 	"encoding/json"
 	"io/ioutil"
 	"log"
@@ -14,20 +13,18 @@ import (
 
 // Senate structs
 type Senate struct {
-	Members []Senator `xml:"member"`
+	Members []Senator `json:"objects"`
 }
 
 type Senator struct {
-	Member_full string   `xml:"member_full"`
-	Last_name   string   `xml:"last_name"`
-	First_name  string   `xml:"first_name"`
-	Party       string   `xml:"party"`
-	State       string   `xml:"state"`
-	Address     string   `xml:"address"`
-	Phone       string   `xml:"phone"`
-	Email       string   `xml:"email"`
-	Website     string   `xml:"website"`
-	Class       string   `xml:"class"`
+	Party string `json:"party"`
+	State string `json:"state"`
+	Phone string `json:"phone"`
+	Description string `json:"description"`
+	EndDate string `json:"enddate"`
+	Website string `json:"website"`
+	ExtraInfo Extra `json:"extra"`
+	MemberInfo Member `json:"person"`
 }
 
 // House of Representatives structs
@@ -65,7 +62,11 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 
 // Serve JSON
 func serveSenateInfo(w http.ResponseWriter, r *http.Request) {
-	resp, err := http.Get("http://www.senate.gov/general/contact_information/senators_cfm.xml")
+	inputState := r.URL.Path[len(r.URL.Path)-2:len(r.URL.Path)]
+
+	getUrl := "https://www.govtrack.us/api/v2/role?current=true&role_type=senator";
+	getUrl += "&state=" + inputState;
+	resp, err := http.Get(getUrl);
 
 	if err != nil {
 		log.Println(err.Error());
@@ -81,20 +82,17 @@ func serveSenateInfo(w http.ResponseWriter, r *http.Request) {
 		return;
 	}
 
-	var xmlSenate Senate
-	err_2 := xml.Unmarshal(body, &xmlSenate)
+	var jsonSenate Senate
+	err_2 := json.Unmarshal(body, &jsonSenate)
 	if err_2 != nil {
 		log.Printf("Error: %v", err_2);
 		http.Error(w, err.Error(), 500);
 		return;
 	}
 
-	inputState := r.URL.Path[len(r.URL.Path)-2:len(r.URL.Path)]
-	stateSenators := findSenatorsByState(inputState, xmlSenate);
-
-	// Send state senator information response in JSON
+	// Send state reps information response in JSON
 	w.Header().Set("Content-Type", "application/json");
-	json.NewEncoder(w).Encode(stateSenators);
+	json.NewEncoder(w).Encode(jsonSenate);
 }
 
 // Serve JSON
