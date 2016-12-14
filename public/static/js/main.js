@@ -223,7 +223,7 @@ function assignStateSenatorCards()
 	currentTemplate = currentTemplate.replace("[[PARTY]]", jsonStateSenate[cardIndex].party.toString());
 	currentTemplate = currentTemplate.replace("[[WEBSITE]]", jsonStateSenate[cardIndex].url.toString());
 	currentTemplate = currentTemplate.replace("[[WEBSITE_DESC]]", "Official Site");
-	currentTemplate = currentTemplate.replace("[[CONTACT]]", jsonStateSenate[cardIndex].email.toString());
+	currentTemplate = currentTemplate.replace("[[CONTACT]]", "mailto:" + jsonStateSenate[cardIndex].email.toString());
 
 	var imageUrl = jsonStateSenate[cardIndex].photo_url;
 	imageUrl = "src='" + imageUrl + "' width='225px' height='275px'";
@@ -297,7 +297,7 @@ function assignStateRepresentativeCard()
 	currentTemplate = currentTemplate.replace("[[PARTY]]", jsonStateReps[cardIndex].party.toString());
 	currentTemplate = currentTemplate.replace("[[WEBSITE]]", jsonStateReps[cardIndex].url.toString());
 	currentTemplate = currentTemplate.replace("[[WEBSITE_DESC]]", "Official Site");
-	currentTemplate = currentTemplate.replace("[[CONTACT]]", jsonStateReps[cardIndex].email.toString());
+	currentTemplate = currentTemplate.replace("[[CONTACT]]", "mailto:" + jsonStateReps[cardIndex].email.toString());
 
 	var imageUrl = jsonStateReps[cardIndex].photo_url;
 	imageUrl = "src='" + imageUrl + "' width='225px' height='275px'";
