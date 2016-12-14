@@ -42,11 +42,8 @@ type GovTrack_Member struct {
 }
 
 // OpenStates API json struct
-type OpenStates_Chamber struct {
-	Members []GovTrack_Official `json:"objects"`
-}
-
 type OpenStates_Official struct {
+	Full_name string `json:"full_name"`
 	First_name string `json:"first_name"`
 	Last_name string `json:"last_name"`
 	Party string `json:"party"`
@@ -54,7 +51,7 @@ type OpenStates_Official struct {
 	Website string `json:"url"`
 	Email string `json:"email"`
 	Photo string `json:"photo_url"`
-	ExtraInfo OpenStates_Office `json:"offices"`
+	//ExtraInfo OpenStates_Office `json:"offices"`
 }
 
 type OpenStates_Office struct {
@@ -107,6 +104,9 @@ func serveLocalStateInfo(url string) http.HandlerFunc {
 		getUrl := url;
 		getUrl += "&state=" + inputState;
 
+		//log.Println("Sending this GET request to OpenStates API: " + getUrl);
+
+		
 		resp, err := http.Get(getUrl);
 
 		if err != nil {
@@ -123,7 +123,8 @@ func serveLocalStateInfo(url string) http.HandlerFunc {
 			return;
 		}
 
-		var jsonReps OpenStates_Chamber;
+		//log.Printf("Response from OpenStates API: %s", body)
+		var jsonReps []OpenStates_Official;
 		err_2 := json.Unmarshal(body, &jsonReps)
 		if err_2 != nil {
 			log.Printf("Error: %v", err_2);
@@ -134,6 +135,7 @@ func serveLocalStateInfo(url string) http.HandlerFunc {
 		// Send state reps information response in JSON
 		w.Header().Set("Content-Type", "application/json");
 		json.NewEncoder(w).Encode(jsonReps);
+		
 	}
 }
 
@@ -151,8 +153,8 @@ func main() {
 	http.HandleFunc("/representatives/federal/", serveFederalStateInfo("https://www.govtrack.us/api/v2/role?current=true&role_type=representative"))
 
 	
-	http.HandleFunc("/senators/state/", serveFederalStateInfo("https://openstates.org/api/v1/legislators/?active=true&chamber=upper"))
-	http.HandleFunc("/representatives/state/", serveFederalStateInfo("https://openstates.org/api/v1/legislators/?active=true&chamber=lower"))
+	http.HandleFunc("/senators/state/", serveLocalStateInfo("https://openstates.org/api/v1/legislators/?active=true&chamber=upper"))
+	http.HandleFunc("/representatives/state/", serveLocalStateInfo("https://openstates.org/api/v1/legislators/?active=true&chamber=lower"))
 
 	http.ListenAndServe(":8080", nil)
 }
