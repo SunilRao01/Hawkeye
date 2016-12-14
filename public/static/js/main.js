@@ -163,11 +163,12 @@ function getResults() {
 	var state = document.getElementById("state").options[index].value;
 	console.log(state);
 
+	// Send HTTP GET requests to server side
 	// LEGISLATIVE
 	// Get state senators
-	httpGetAsync("/senators/" + state, setSenateInfo);
+	httpGetAsync("/senators/federal/" + state, setSenateInfo);
 	// Get state representatives
-	httpGetAsync("/representatives/" + state, setRepsInfo);
+	httpGetAsync("/representatives/federal/" + state, setRepsInfo);
 }
 
 

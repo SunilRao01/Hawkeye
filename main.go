@@ -42,73 +42,41 @@ type Member struct {
 }
 
 // Serve JSON
-func serveSenateInfo(w http.ResponseWriter, r *http.Request) {
-	inputState := r.URL.Path[len(r.URL.Path)-2:len(r.URL.Path)]
+func serveStateInfo(url string) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		inputState := r.URL.Path[len(r.URL.Path)-2:len(r.URL.Path)]
+		
+		getUrl := url;
+		getUrl += "&state=" + inputState;
 
-	getUrl := "https://www.govtrack.us/api/v2/role?current=true&role_type=senator";
-	getUrl += "&state=" + inputState;
-	resp, err := http.Get(getUrl);
+		resp, err := http.Get(getUrl);
 
-	if err != nil {
-		log.Println(err.Error());
-		http.Error(w, err.Error(), 500);
-		return;
+		if err != nil {
+			log.Println(err.Error());
+			http.Error(w, err.Error(), 500);
+			return;
+		}
+		defer resp.Body.Close()
+
+		body, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			log.Println(err.Error());
+			http.Error(w, err.Error(), 500);
+			return;
+		}
+
+		var jsonReps Chamber;
+		err_2 := json.Unmarshal(body, &jsonReps)
+		if err_2 != nil {
+			log.Printf("Error: %v", err_2);
+			http.Error(w, err.Error(), 500);
+			return;
+		}
+
+		// Send state reps information response in JSON
+		w.Header().Set("Content-Type", "application/json");
+		json.NewEncoder(w).Encode(jsonReps);
 	}
-	defer resp.Body.Close()
-
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Println(err.Error());
-		http.Error(w, err.Error(), 500);
-		return;
-	}
-
-	var jsonSenate Chamber
-	err_2 := json.Unmarshal(body, &jsonSenate)
-	if err_2 != nil {
-		log.Printf("Error: %v", err_2);
-		http.Error(w, err.Error(), 500);
-		return;
-	}
-
-	// Send state reps information response in JSON
-	w.Header().Set("Content-Type", "application/json");
-	json.NewEncoder(w).Encode(jsonSenate);
-}
-
-// Serve JSON
-func serveRepInfo(w http.ResponseWriter, r *http.Request) {
-	inputState := r.URL.Path[len(r.URL.Path)-2:len(r.URL.Path)]
-
-	getUrl := "https://www.govtrack.us/api/v2/role?current=true&role_type=representative";
-	getUrl += "&state=" + inputState;
-	resp, err := http.Get(getUrl);
-
-	if err != nil {
-		log.Println(err.Error());
-		http.Error(w, err.Error(), 500);
-		return;
-	}
-	defer resp.Body.Close()
-
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Println(err.Error());
-		http.Error(w, err.Error(), 500);
-		return;
-	}
-
-	var jsonReps Chamber;
-	err_2 := json.Unmarshal(body, &jsonReps)
-	if err_2 != nil {
-		log.Printf("Error: %v", err_2);
-		http.Error(w, err.Error(), 500);
-		return;
-	}
-
-	// Send state reps information response in JSON
-	w.Header().Set("Content-Type", "application/json");
-	json.NewEncoder(w).Encode(jsonReps);
 }
 
 // Serve HTML
@@ -121,8 +89,8 @@ func main() {
 	http.HandleFunc("/", serveHome)
 
 	// Serve state information
-	http.HandleFunc("/senators/", serveSenateInfo)
-	http.HandleFunc("/representatives/", serveRepInfo)
+	http.HandleFunc("/senators/federal/", serveStateInfo("https://www.govtrack.us/api/v2/role?current=true&role_type=senator"))
+	http.HandleFunc("/representatives/federal/", serveStateInfo("https://www.govtrack.us/api/v2/role?current=true&role_type=representative"))
 
 	http.ListenAndServe(":8080", nil)
 }
