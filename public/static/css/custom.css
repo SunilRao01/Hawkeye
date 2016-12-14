@@ -1,3 +1,19 @@
+body {
+  background-color: black; }
+
+label {
+  color: white; }
+
+select {
+  background-color: black;
+  color: white; }
+
+hr {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px; }
+
 .headerTitle {
   margin-top: 5%;
   font-size: 3.0rem;
@@ -18,22 +34,6 @@
 
 .labelInput {
   text-align: left; }
-
-body {
-  background-color: black; }
-
-label {
-  color: white; }
-
-select {
-  background-color: black;
-  color: white; }
-
-hr {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  padding-top: 0px;
-  padding-bottom: 0px; }
 
 .branch, .scopeBranch, .groupBranch {
   background-color: #1a1a1a;
@@ -61,18 +61,42 @@ hr {
   background-color: #666666;
   transition: opacity 3s; }
 
-.card, .card-D, .card-R, .card-I {
-  background-color: #666666;
-  color: white;
-  border-spacing: 5px;
-  margin-top: 10px;
-  height: 500px;
-  width: 80%;
-  display: block;
-  text-shadow: 1px 1px 2px black;
-  box-shadow: 4px 4px 5px black;
-  transition: opacity 1s; }
-
+@media only screen and (min-width: 300px) {
+  .card, .card-D, .card-R, .card-I {
+    background-color: #666666;
+    color: white;
+    border-spacing: 5px;
+    margin-top: 10px;
+    height: 470px;
+    width: 80%;
+    display: block;
+    text-shadow: 1px 1px 2px black;
+    box-shadow: 4px 4px 5px black;
+    transition: opacity 1s; } }
+@media only screen and (min-width: 400px) {
+  .card, .card-D, .card-R, .card-I {
+    background-color: #666666;
+    color: white;
+    border-spacing: 5px;
+    margin-top: 10px;
+    height: 600px;
+    width: 80%;
+    display: block;
+    text-shadow: 1px 1px 2px black;
+    box-shadow: 4px 4px 5px black;
+    transition: opacity 1s; } }
+@media only screen and (min-width: 550px) {
+  .card, .card-D, .card-R, .card-I {
+    background-color: #666666;
+    color: white;
+    border-spacing: 5px;
+    margin-top: 10px;
+    height: 500px;
+    width: 80%;
+    display: block;
+    text-shadow: 1px 1px 2px black;
+    box-shadow: 4px 4px 5px black;
+    transition: opacity 1s; } }
 .card-D {
   background-color: #5577aa; }
 

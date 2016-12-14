@@ -97,8 +97,6 @@ function assignSenatorCards()
 	currentTemplate = currentTemplate.replace("[[STATE]]", jsonSenate.objects[cardIndex].state.toString());
 	currentTemplate = currentTemplate.replace("[[PARTY]]", jsonSenate.objects[cardIndex].party.toString());
 	currentTemplate = currentTemplate.replace("[[WEBSITE]]", jsonSenate.objects[cardIndex].person.link.toString());
-	currentTemplate = currentTemplate.replace("[[WEBSITE]]", jsonSenate.objects[cardIndex].person.link.toString());
-	currentTemplate = currentTemplate.replace("[[CONTACT]]", jsonSenate.objects[cardIndex].extra.contact_form.toString());
 	currentTemplate = currentTemplate.replace("[[CONTACT]]", jsonSenate.objects[cardIndex].extra.contact_form.toString());
 
 	var imageUrl = "https://theunitedstates.io/images/congress/225x275/"

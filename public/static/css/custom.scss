@@ -2,6 +2,14 @@
 $background : black;
 $text-color: white;
 
+body { background-color: $background; }
+label { color: $text-color; }
+select { background-color: $background; color: $text-color; }
+hr { margin-top: 0px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px;}
+
+
+
+
 // Header
 .headerTitle 
 {  
@@ -30,12 +38,6 @@ $text-color: white;
 { 
 	text-align: left; 
 }
-
-
-body { background-color: $background; }
-label { color: $text-color; }
-select { background-color: $background; color: $text-color; }
-hr { margin-top: 0px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px;}
 
 .branch 
 { 
@@ -72,20 +74,54 @@ hr { margin-top: 0px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px;
 }
 
 // Card outer layout
-.card
-{
-	background-color: #666666;
-	color: $text-color;
-	border-spacing: 5px;
-	margin-top: 10px;
-	height: 500px;
-	width: 80%;
-	display: block;
-	text-shadow: 1px 1px 2px black;
-	box-shadow: 4px 4px 5px black;
-	transition: opacity 1s;
+@media only screen and (min-width: 300px) {
+	.card {
+		background-color: #666666;
+		color: $text-color;
+		border-spacing: 5px;
+		margin-top: 10px;
+		height: 470px;
+		width: 80%;
+		display: block;
+		text-shadow: 1px 1px 2px black;
+		box-shadow: 4px 4px 5px black;
+		transition: opacity 1s;
 
+	}
 }
+@media only screen and (min-width: 400px) {
+	.card {
+		background-color: #666666;
+		color: $text-color;
+		border-spacing: 5px;
+		margin-top: 10px;
+		height: 600px;
+		width: 80%;
+		display: block;
+		text-shadow: 1px 1px 2px black;
+		box-shadow: 4px 4px 5px black;
+		transition: opacity 1s;
+
+	}
+}
+@media only screen and (min-width: 550px) {
+	.card {
+		background-color: #666666;
+		color: $text-color;
+		border-spacing: 5px;
+		margin-top: 10px;
+		height: 500px;
+		width: 80%;
+		display: block;
+		text-shadow: 1px 1px 2px black;
+		box-shadow: 4px 4px 5px black;
+		transition: opacity 1s;
+
+	}
+}
+
+
+
 
 .card-D
 {

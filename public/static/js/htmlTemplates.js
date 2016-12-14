@@ -10,13 +10,13 @@ var federalSenatePartial =
     </div>
     <hr>
     <div class="row">
-      <p class="one-half column card-label">Website:</p>
-      <a href="[[WEBSITE]]" target="_blank" class="one-half column card-description">[[WEBSITE]]</a>
+      <p class="one-half column card-label">Information:</p>
+      <a href="[[WEBSITE]]" target="_blank" class="one-half column card-description">GovTrack</a>
     </div>
     <hr>
     <div class="row">
       <p class="one-half column card-label">Contact:</p>
-      <a href="[[CONTACT]]" target="_blank" class="one-half column card-description">[[CONTACT]]</p>
+      <a href="[[CONTACT]]" target="_blank" class="one-half column card-description">Mail</p>
     </div>
   </div>
 `;
@@ -33,13 +33,13 @@ var federalHouseOfRepsPartial =
     </div>
     <hr>
     <div class="row">
-      <p class="one-half column card-label">Website:</p>
-      <a href="[[WEBSITE]]" target="_blank" class="one-half column card-description">[[WEBSITE]]</a>
+      <p class="one-half column card-label">Information:</p>
+      <a href="[[WEBSITE]]" target="_blank" class="one-half column card-description">GovTrack</a>
     </div>
     <hr>
     <div class="row">
       <p class="one-half column card-label">Contact:</p>
-      <a href="[[CONTACT]]" target="_blank" class="one-half column card-description">[[CONTACT]]</p>
+      <a href="[[CONTACT]]" target="_blank" class="one-half column card-description">Mail</p>
     </div>
   </div>
 `;
