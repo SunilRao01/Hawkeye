@@ -2,7 +2,7 @@ var federalSenatePartial =
 `
   <h4 class="card-name">[[FIRSTNAME]] [[LASTNAME]]</h4>
   <h6 class="card-state">[[STATE]]</h6>
-  <center><img class="u-max-full-width card-image" src="[[IMAGE]]"></center>
+  <center><img class="u-max-full-width card-image" [[IMAGE]]></center>
   <div class="container">
     <div class="row">
       <p class="one-half column card-label">Party:</p>
@@ -25,7 +25,7 @@ var federalHouseOfRepsPartial =
 `
   <h4 class="card-name">[[FIRSTNAME]] [[LASTNAME]]</h4>
   <h6 class="card-state">[[STATE]]</h6>
-  <center><img class="u-max-full-width card-image" src="[[IMAGE]]"></center>
+  <center><img class="u-max-full-width card-image" [[IMAGE]]></center>
   <div class="container">
     <div class="row">
       <p class="one-half column card-label">Party:</p>

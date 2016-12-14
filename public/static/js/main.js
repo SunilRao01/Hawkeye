@@ -102,7 +102,7 @@ function assignSenatorCards()
 
 	var imageUrl = "https://theunitedstates.io/images/congress/225x275/"
 	imageUrl += jsonSenate.objects[cardIndex].person.bioguideid.toString() + ".jpg";
-	currentTemplate = currentTemplate.replace("[[IMAGE]]", imageUrl);
+	currentTemplate = currentTemplate.replace("[[IMAGE]]", "src='" + imageUrl + "'");
 
 
 	if (cardIndex < jsonSenate.objects.length-1) {
@@ -139,7 +139,7 @@ function assignRepresentativeCard()
 
 	var imageUrl = "https://theunitedstates.io/images/congress/225x275/"
 	imageUrl += jsonReps.objects[cardIndex].person.bioguideid.toString() + ".jpg";
-	currentTemplate = currentTemplate.replace("[[IMAGE]]", imageUrl);
+	currentTemplate = currentTemplate.replace("[[IMAGE]]", "src='" + imageUrl + "'");
 
 	if (cardIndex < jsonReps.objects.length-1) {
 		cardIndex++;
@@ -154,26 +154,6 @@ function assignRepresentativeCard()
 	return currentCard;
 }
 
-function getResults() {
-	senateContainer = document.getElementById('senateCardContainer');
-	houseOfRepsContainer = document.getElementById('houseOfRepsCardContainer')
-
-	// Retrite selected option
-	var index = document.getElementById("state").selectedIndex;
-	var state = document.getElementById("state").options[index].value;
-	console.log(state);
-
-	// Send HTTP GET requests to server side
-	// LEGISLATIVE
-	// Get state senators
-	httpGetAsync("/senators/federal/" + state, setSenateInfo);
-	// Get state representatives
-	httpGetAsync("/representatives/federal/" + state, setRepsInfo);
-}
-
-
-
-
 // handle GET Requests for 
 function httpGetAsync(theUrl, callback) {
     var xmlHttp = new XMLHttpRequest();
@@ -187,9 +167,55 @@ function httpGetAsync(theUrl, callback) {
     xmlHttp.send(null);
 }
 
-function setSenateInfo(senateInfo) {
+function getResults() {
+	senateContainer = document.getElementById('senateCardContainer');
+	houseOfRepsContainer = document.getElementById('houseOfRepsCardContainer')
+
+	// Retrite selected option
+	var index = document.getElementById("state").selectedIndex;
+	var state = document.getElementById("state").options[index].value;
+	console.log(state);
+
+	// Send HTTP GET requests to server side
+	// LEGISLATIVE
+	// FEDERAL
+	httpGetAsync("/senators/federal/" + state, setFederalSenateInfo);
+	httpGetAsync("/representatives/federal/" + state, setFederalRepsInfo);
+	// STATE
+	//httpGetAsync("/senators/state/" + state, setStateSenateInfo);
+	//httpGetAsync("/representatives/state/" + state, setStateRepsInfo);
+}
+
+function setStateSenateInfo(senateInfo) {
+	//console.log("representatives info response: " + repsInfo);
+	jsonSenate = JSON.parse(senateInfo);
+	//console.log(repsInfo);
+	//populateHouseOfRepsUI();
+
+	console.log("State Senate JSON Response: " + jsonSenate.toString());
+
+	// Enable state senate UI
+	document.getElementById('groupBranch3').style.opacity = 1;
+}
+
+function setStateRepsInfo(repsInfo) {
+	//console.log("representatives info response: " + repsInfo);
+	jsonReps = JSON.parse(repsInfo);
+	//console.log(repsInfo);
+	//populateHouseOfRepsUI();
+	
+
+	console.log("State Reps JSON Response: " + jsonReps.toString());
+
+	// Enable state senate UI
+	document.getElementById('groupBranch4').style.opacity = 1;
+}
+
+function setFederalSenateInfo(senateInfo) {
 	//console.log("senate info: " + senateInfo);
 	jsonSenate = JSON.parse(senateInfo);
+
+	populateSenateUI();
 
 	// Enable Senator parent UI
 	document.getElementById('branch').style.opacity = 1;
@@ -199,14 +225,13 @@ function setSenateInfo(senateInfo) {
 	document.getElementById('groupBranch1').style.opacity = 1;
 
 	// NOTE: Enable sate UI info by default because there is none
-	document.getElementById('scopeBranch2').style.opacity = 1;
-	document.getElementById('groupBranch3').style.opacity = 1;
-	document.getElementById('groupBranch4').style.opacity = 1;
-	populateSenateUI();
+	//document.getElementById('groupBranch3').style.opacity = 1;
+	//document.getElementById('groupBranch4').style.opacity = 1;
+	
 }
 
 
-function setRepsInfo(repsInfo) {
+function setFederalRepsInfo(repsInfo) {
 	//console.log("representatives info response: " + repsInfo);
 	jsonReps = JSON.parse(repsInfo);
 	//console.log(repsInfo);
