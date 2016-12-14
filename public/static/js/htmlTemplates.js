@@ -16,7 +16,7 @@ var htmlCardPartial =
     <hr>
     <div class="row">
       <p class="one-half column card-label">Contact:</p>
-      <a href="[[CONTACT]]" target="_blank" class="one-half column card-description">Mail</p>
+      <a href="[[CONTACT]]" target="_blank" class="one-half column card-description">E-mail</p>
     </div>
   </div>
 `;
