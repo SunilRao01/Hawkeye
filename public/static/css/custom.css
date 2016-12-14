@@ -61,37 +61,25 @@ hr {
   background-color: #666666;
   transition: opacity 3s; }
 
-@media only screen and (min-width: 300px) {
+.card, .card-D, .card-R, .card-I {
+  background-color: #666666;
+  color: white;
+  border-spacing: 5px;
+  margin-top: 10px;
+  height: 500px;
+  width: 80%;
+  display: block;
+  text-shadow: 1px 1px 2px black;
+  box-shadow: 4px 4px 5px black;
+  transition: opacity 1s; }
+
+@media only screen and (max-width: 550px) {
   .card, .card-D, .card-R, .card-I {
     background-color: #666666;
     color: white;
     border-spacing: 5px;
     margin-top: 10px;
-    height: 470px;
-    width: 80%;
-    display: block;
-    text-shadow: 1px 1px 2px black;
-    box-shadow: 4px 4px 5px black;
-    transition: opacity 1s; } }
-@media only screen and (min-width: 400px) {
-  .card, .card-D, .card-R, .card-I {
-    background-color: #666666;
-    color: white;
-    border-spacing: 5px;
-    margin-top: 10px;
-    height: 600px;
-    width: 80%;
-    display: block;
-    text-shadow: 1px 1px 2px black;
-    box-shadow: 4px 4px 5px black;
-    transition: opacity 1s; } }
-@media only screen and (min-width: 550px) {
-  .card, .card-D, .card-R, .card-I {
-    background-color: #666666;
-    color: white;
-    border-spacing: 5px;
-    margin-top: 10px;
-    height: 500px;
+    height: 550px;
     width: 80%;
     display: block;
     text-shadow: 1px 1px 2px black;

@@ -77,6 +77,7 @@ function replaceAll(str, find, replace) {
 }
 
 var jsonSenate = {};
+var jsonReps = {};
 var counter = 0;
 var cardIndex = 0;
 function assignSenatorCards()
@@ -116,7 +117,6 @@ function assignSenatorCards()
 	return currentCard;
 }
 
-var jsonReps = {};
 function assignRepresentativeCard()
 {
 	var currentCard = document.createElement('div');
@@ -135,8 +135,6 @@ function assignRepresentativeCard()
 	currentTemplate = currentTemplate.replace("[[STATE]]", jsonReps.objects[cardIndex].state.toString());
 	currentTemplate = currentTemplate.replace("[[PARTY]]", jsonReps.objects[cardIndex].party.toString());
 	currentTemplate = currentTemplate.replace("[[WEBSITE]]", jsonReps.objects[cardIndex].person.link.toString());
-	currentTemplate = currentTemplate.replace("[[WEBSITE]]", jsonReps.objects[cardIndex].person.link.toString());
-	currentTemplate = currentTemplate.replace("[[CONTACT]]", jsonReps.objects[cardIndex].extra.contact_form.toString());
 	currentTemplate = currentTemplate.replace("[[CONTACT]]", jsonReps.objects[cardIndex].extra.contact_form.toString());
 
 	var imageUrl = "https://theunitedstates.io/images/congress/225x275/"
@@ -192,10 +190,17 @@ function setSenateInfo(senateInfo) {
 	//console.log("senate info: " + senateInfo);
 	jsonSenate = JSON.parse(senateInfo);
 
+	// Enable Senator parent UI
 	document.getElementById('branch').style.opacity = 1;
-	document.getElementById('scopeBranch').style.opacity = 1;
+	document.getElementById('scopeBranch1').style.opacity = 1;
+
+	// Enable Senators UI
 	document.getElementById('groupBranch1').style.opacity = 1;
-	document.getElementById('groupBranch2').style.opacity = 1;
+
+	// NOTE: Enable sate UI info by default because there is none
+	document.getElementById('scopeBranch2').style.opacity = 1;
+	document.getElementById('groupBranch3').style.opacity = 1;
+	document.getElementById('groupBranch4').style.opacity = 1;
 	populateSenateUI();
 }
 
@@ -205,4 +210,7 @@ function setRepsInfo(repsInfo) {
 	jsonReps = JSON.parse(repsInfo);
 	//console.log(repsInfo);
 	populateHouseOfRepsUI();
+
+	// Enable Reps UI
+	document.getElementById('groupBranch2').style.opacity = 1;
 }

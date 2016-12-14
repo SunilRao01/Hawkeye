@@ -11,31 +11,17 @@ import (
 /// LEGISLATIVE ///
 ///////////////////
 
-// Senate structs
-type Senate struct {
-	Members []Senator `json:"objects"`
+// GovTrack API Members json struct
+type Chamber struct {
+	Members []Official `json:"objects"`
 }
 
-type Senator struct {
+type Official struct {
 	Party string `json:"party"`
 	State string `json:"state"`
 	Phone string `json:"phone"`
 	Description string `json:"description"`
 	EndDate string `json:"enddate"`
-	Website string `json:"website"`
-	ExtraInfo Extra `json:"extra"`
-	MemberInfo Member `json:"person"`
-}
-
-// House of Representatives structs
-type HouseOfReps struct {
-	Members []Representative `json:"objects"`
-}
-
-type Representative struct {
-	Party string `json:"party"`
-	State string `json:"state"`
-	Phone string `json:"phone"`
 	Website string `json:"website"`
 	ExtraInfo Extra `json:"extra"`
 	MemberInfo Member `json:"person"`
@@ -77,7 +63,7 @@ func serveSenateInfo(w http.ResponseWriter, r *http.Request) {
 		return;
 	}
 
-	var jsonSenate Senate
+	var jsonSenate Chamber
 	err_2 := json.Unmarshal(body, &jsonSenate)
 	if err_2 != nil {
 		log.Printf("Error: %v", err_2);
@@ -112,7 +98,7 @@ func serveRepInfo(w http.ResponseWriter, r *http.Request) {
 		return;
 	}
 
-	var jsonReps HouseOfReps
+	var jsonReps Chamber;
 	err_2 := json.Unmarshal(body, &jsonReps)
 	if err_2 != nil {
 		log.Printf("Error: %v", err_2);
@@ -123,25 +109,6 @@ func serveRepInfo(w http.ResponseWriter, r *http.Request) {
 	// Send state reps information response in JSON
 	w.Header().Set("Content-Type", "application/json");
 	json.NewEncoder(w).Encode(jsonReps);
-}
-
-// Helper function for senate searching
-func findSenatorsByState(state string, senators Senate) [2]Senator {
-	var stateSenators [2]Senator;
-	index := 0;
-	for i := range senators.Members {
-		if (senators.Members[i].State == state) {
-			if (index == 0) {
-				stateSenators[0] = senators.Members[i];
-			} else {
-				stateSenators[1] = senators.Members[i];
-			}
-
-			index++;
-		}
-	}
-
-	return stateSenators;
 }
 
 // Serve HTML
