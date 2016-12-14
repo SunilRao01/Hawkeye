@@ -11,4 +11,9 @@ The frameworks used are:
 - Skeleton (CSS Boilerplate)
 - SASS
 
+Public APIs used for data:
+	For legislative branch:
+		- OpenStates.org
+		- GovTrack.us
+
 You can try out the application in its current state over here: http://ec2-54-148-22-164.us-west-2.compute.amazonaws.com:8080/
