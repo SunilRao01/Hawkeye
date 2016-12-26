@@ -161,10 +161,15 @@ function replaceAll(str, find, replace) {
   return str.replace(new RegExp(find, 'g'), replace);
 }
 
+// Legislative JSON Info
 var jsonFederalSenate = {};
 var jsonFederalReps = {};
 var jsonStateSenate = {};
 var jsonStateReps = {};
+
+// Executive JSON Info
+var jsonFederalExecs = {};
+var jsonStateExecs = {};
 var counter = 0;
 var cardIndex = 0;
 function assignFederalSenatorCards()
@@ -210,7 +215,7 @@ function assignStateSenatorCards()
 	currentCard.className = "one-third column";
 	if (jsonStateSenate[cardIndex].party == "Republican") {
 		currentCard.className += " card-R ";
-	} else if (jsonStateSenate[cardIndex].party == "Democratic") {
+	} else if (jsonStateSenate[cardIndex].party == "Democratic" || jsonStateSenate[cardIndex].party == "Democrat") {
 		currentCard.className += " card-D ";
 	} else if (jsonStateSenate[cardIndex].party == "Independent") {
 		currentCard.className += " card-I ";
@@ -284,7 +289,7 @@ function assignStateRepresentativeCard()
 	currentCard.className = "one-third column";
 	if (jsonStateReps[cardIndex].party == "Republican") {
 		currentCard.className += " card-R ";
-	} else if (jsonStateReps[cardIndex].party == "Democratic") {
+	} else if (jsonStateReps[cardIndex].party == "Democratic" || jsonStateReps[cardIndex].party == "Democrat") {
 		currentCard.className += " card-D ";
 	} else if (jsonStateReps[cardIndex].party == "Independent") {
 		currentCard.className += " card-I ";
@@ -387,7 +392,6 @@ function setFederalSenateInfo(senateInfo) {
 	document.getElementById('groupBranch1').style.opacity = 1;
 }
 
-
 function setFederalRepsInfo(repsInfo) {
 	//console.log("representatives info response: " + repsInfo);
 	jsonFederalReps = JSON.parse(repsInfo);
@@ -396,4 +400,21 @@ function setFederalRepsInfo(repsInfo) {
 
 	// Enable Reps UI
 	document.getElementById('groupBranch2').style.opacity = 1;
+}
+
+function setFederalExecutiveInfo(execInfo) {
+	jsonFederalExecs = JSON.parse(execInfo);
+
+	//populateFederalExecsUI();
+
+	// Enable federal UI
+	document.getElementById('groupBranch5');
+}
+
+function setStateExecutiveInfo(execInfo) {
+	jsonStateExecs = JSON.parse(execInfo);
+
+	//populateStateExecsUI();
+
+	document.getElementById('groupBranch6');
 }
