@@ -326,46 +326,63 @@ function httpGetAsync(theUrl, callback) {
 function getResults() {
 	federalSenateContainer = document.getElementById('federalSenateCardContainer');
 	federalHouseOfRepsContainer = document.getElementById('federalHouseOfRepsCardContainer');
-	stateSenateContainer = document.getElementById('stateSenateCardContainer');
-	stateHouseOfRepsContainer = document.getElementById('stateHouseOfRepsCardContainer');
+	
 
 	// Retrite selected option
 	var index = document.getElementById("state").selectedIndex;
 	var state = document.getElementById("state").options[index].value;
-	console.log(state);
+	//console.log(state);
 
 	// Send HTTP GET requests to server side
 	// LEGISLATIVE
 	// FEDERAL
 	httpGetAsync("/senators/federal/" + state, setFederalSenateInfo);
 	httpGetAsync("/representatives/federal/" + state, setFederalRepsInfo);
+
+	
+}
+
+function getStateSenResults()
+{
+	stateSenateContainer = document.getElementById('stateSenateCardContainer');
+	
+	var index = document.getElementById("state").selectedIndex;
+	var state = document.getElementById("state").options[index].value;
+
 	// STATE
 	httpGetAsync("/senators/state/" + state, setStateSenateInfo);
+	
+}
+
+function getStateRepsResults()
+{
+	stateHouseOfRepsContainer = document.getElementById('stateHouseOfRepsCardContainer');
+
+	var index = document.getElementById("state").selectedIndex;
+	var state = document.getElementById("state").options[index].value;
+
 	httpGetAsync("/representatives/state/" + state, setStateRepsInfo);
 }
 
 function setStateSenateInfo(senateInfo) {
 	//console.log("representatives info response: " + repsInfo);
 	jsonStateSenate = JSON.parse(senateInfo);
-	//console.log(repsInfo);
 
-	//populateHouseOfRepsUI();
+	// TODO: Remove button
+	document.getElementById('stateSenButton').style.display = 'none';
+	
 	populateStateSenateUI();
-
-	// Enable state senate UI
-	document.getElementById('scopeBranch2').style.opacity = 1;
-	document.getElementById('groupBranch3').style.opacity = 1;
+	
 }
 
 function setStateRepsInfo(repsInfo) {
 	//console.log("representatives info response: " + repsInfo);
 	jsonStateReps = JSON.parse(repsInfo);
-	//console.log(repsInfo);
+
+	// TODO: Remove button
+	document.getElementById('stateRepsButton').style.display = 'none';
 
 	populateStateHouseOfRepsUI();
-
-	// Enable state senate UI
-	document.getElementById('groupBranch4').style.opacity = 1;
 }
 
 function setFederalSenateInfo(senateInfo) {
@@ -390,6 +407,13 @@ function setFederalRepsInfo(repsInfo) {
 
 	// Enable Reps UI
 	document.getElementById('groupBranch2').style.opacity = 1;
+
+	// Enable state senate UI
+	document.getElementById('scopeBranch2').style.opacity = 1;
+	document.getElementById('groupBranch3').style.opacity = 1;
+
+	// Enable state reps UI
+	document.getElementById('groupBranch4').style.opacity = 1;
 }
 
 function setFederalExecutiveInfo(execInfo) {
