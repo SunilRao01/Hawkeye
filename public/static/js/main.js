@@ -176,13 +176,7 @@ function assignFederalSenatorCards()
 {
 	var currentCard = document.createElement('div');
 	currentCard.className = "one-half column";
-	if (jsonFederalSenate.objects[cardIndex].party == "Republican") {
-		currentCard.className += " card-R ";
-	} else if (jsonFederalSenate.objects[cardIndex].party == "Democrat") {
-		currentCard.className += " card-D ";
-	} else if (jsonFederalSenate.objects[cardIndex].party == "Independent") {
-		currentCard.className += " card-I ";
-	}
+	assignCard(currentCard, jsonFederalSenate.objects, cardIndex);
 
 	var currentTemplate = htmlCardPartial.slice();
 	currentTemplate = currentTemplate.replace("[[FIRSTNAME]]", jsonFederalSenate.objects[cardIndex].person.firstname.toString());
@@ -209,54 +203,12 @@ function assignFederalSenatorCards()
 	currentCard.style.opacity = 1;
 	return currentCard;
 }
-function assignStateSenatorCards()
-{
-	var currentCard = document.createElement('div');
-	currentCard.className = "one-third column";
-	if (jsonStateSenate[cardIndex].party == "Republican") {
-		currentCard.className += " card-R ";
-	} else if (jsonStateSenate[cardIndex].party == "Democratic" || jsonStateSenate[cardIndex].party == "Democrat") {
-		currentCard.className += " card-D ";
-	} else if (jsonStateSenate[cardIndex].party == "Independent") {
-		currentCard.className += " card-I ";
-	}
-
-	var currentTemplate = htmlCardPartial.slice();
-	currentTemplate = currentTemplate.replace("[[FIRSTNAME]]", jsonStateSenate[cardIndex].first_name.toString());
-	currentTemplate = currentTemplate.replace("[[LASTNAME]]", jsonStateSenate[cardIndex].last_name.toString());
-	currentTemplate = currentTemplate.replace("[[STATE]]", jsonStateSenate[cardIndex].state.toString().toUpperCase());
-	currentTemplate = currentTemplate.replace("[[PARTY]]", jsonStateSenate[cardIndex].party.toString());
-	currentTemplate = currentTemplate.replace("[[WEBSITE]]", jsonStateSenate[cardIndex].url.toString());
-	currentTemplate = currentTemplate.replace("[[WEBSITE_DESC]]", "Official Site");
-	currentTemplate = currentTemplate.replace("[[CONTACT]]", "mailto:" + jsonStateSenate[cardIndex].email.toString());
-
-	var imageUrl = jsonStateSenate[cardIndex].photo_url;
-	imageUrl = "src='" + imageUrl + "' width='225px' height='275px'";
-	currentTemplate = currentTemplate.replace("[[IMAGE]]", imageUrl);
-
-	if (cardIndex < jsonStateSenate.length-1) {
-		cardIndex++;
-	} else {
-		cardIndex = 0;
-	}
-
-	counter++;
-	currentCard.innerHTML = currentTemplate;
-	currentCard.style.opacity = 1;
-	return currentCard;
-}
 
 function assignFederalRepresentativeCard()
 {
 	var currentCard = document.createElement('div');
 	currentCard.className = "one-third column";
-	if (jsonFederalReps.objects[cardIndex].party == "Republican") {
-		currentCard.className += " card-R ";
-	} else if (jsonFederalReps.objects[cardIndex].party == "Democrat") {
-		currentCard.className += " card-D ";
-	} else if (jsonFederalReps.objects[cardIndex].party == "Independent") {
-		currentCard.className += " card-I ";
-	}
+	assignCard(currentCard, jsonFederalReps.objects, cardIndex);
 
 	var currentTemplate = htmlCardPartial.slice();
 	currentTemplate = currentTemplate.replace("[[FIRSTNAME]]", jsonFederalReps.objects[cardIndex].person.firstname.toString());
@@ -283,17 +235,44 @@ function assignFederalRepresentativeCard()
 
 	return currentCard;
 }
+
+function assignStateSenatorCards()
+{
+	var currentCard = document.createElement('div');
+	currentCard.className = "one-third column";
+	assignCard(currentCard, jsonStateSenate, cardIndex);
+
+	var currentTemplate = htmlCardPartial.slice();
+	currentTemplate = currentTemplate.replace("[[FIRSTNAME]]", jsonStateSenate[cardIndex].first_name.toString());
+	currentTemplate = currentTemplate.replace("[[LASTNAME]]", jsonStateSenate[cardIndex].last_name.toString());
+	currentTemplate = currentTemplate.replace("[[STATE]]", jsonStateSenate[cardIndex].state.toString().toUpperCase());
+	currentTemplate = currentTemplate.replace("[[PARTY]]", jsonStateSenate[cardIndex].party.toString());
+	currentTemplate = currentTemplate.replace("[[WEBSITE]]", jsonStateSenate[cardIndex].url.toString());
+	currentTemplate = currentTemplate.replace("[[WEBSITE_DESC]]", "Official Site");
+	currentTemplate = currentTemplate.replace("[[CONTACT]]", "mailto:" + jsonStateSenate[cardIndex].email.toString());
+
+	var imageUrl = jsonStateSenate[cardIndex].photo_url;
+	imageUrl = "src='" + imageUrl + "' width='225px' height='275px'";
+	currentTemplate = currentTemplate.replace("[[IMAGE]]", imageUrl);
+
+	if (cardIndex < jsonStateSenate.length-1) {
+		cardIndex++;
+	} else {
+		cardIndex = 0;
+	}
+
+	counter++;
+	currentCard.innerHTML = currentTemplate;
+	currentCard.style.opacity = 1;
+	return currentCard;
+}
+
 function assignStateRepresentativeCard()
 {
 	var currentCard = document.createElement('div');
 	currentCard.className = "one-third column";
-	if (jsonStateReps[cardIndex].party == "Republican") {
-		currentCard.className += " card-R ";
-	} else if (jsonStateReps[cardIndex].party == "Democratic" || jsonStateReps[cardIndex].party == "Democrat") {
-		currentCard.className += " card-D ";
-	} else if (jsonStateReps[cardIndex].party == "Independent") {
-		currentCard.className += " card-I ";
-	}
+
+	assignCard(currentCard, jsonStateReps, cardIndex);
 
 	var currentTemplate = htmlCardPartial.slice();
 	currentTemplate = currentTemplate.replace("[[FIRSTNAME]]", jsonStateReps[cardIndex].first_name.toString());
@@ -318,6 +297,17 @@ function assignStateRepresentativeCard()
 	currentCard.innerHTML = currentTemplate;
 	currentCard.style.opacity = 1;
 	return currentCard;
+}
+
+function assignCard(card, json, index)
+{
+	if (json[index].party == "Republican") {
+		card.className += " card-R ";
+	} else if (json[index].party == "Democratic" || json[index].party == "Democrat") {
+		card.className += " card-D ";
+	} else if (json[index].party == "Independent") {
+		card.className += " card-I ";
+	}
 }
 
 // handle GET Requests for 
