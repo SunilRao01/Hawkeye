@@ -185,7 +185,6 @@ function assignFederalSenatorCards()
 	currentTemplate = currentTemplate.replace("[[PARTY]]", jsonFederalSenate.objects[cardIndex].party.toString());
 	currentTemplate = currentTemplate.replace("[[WEBSITE]]", jsonFederalSenate.objects[cardIndex].person.link.toString());
 	currentTemplate = currentTemplate.replace("[[WEBSITE_DESC]]", "GovTrack");
-	currentTemplate = currentTemplate.replace("[[CONTACT]]", jsonFederalSenate.objects[cardIndex].extra.contact_form.toString());
 
 	var imageUrl = "https://theunitedstates.io/images/congress/225x275/"
 	imageUrl += jsonFederalSenate.objects[cardIndex].person.bioguideid.toString() + ".jpg";
@@ -217,7 +216,6 @@ function assignFederalRepresentativeCard()
 	currentTemplate = currentTemplate.replace("[[PARTY]]", jsonFederalReps.objects[cardIndex].party.toString());
 	currentTemplate = currentTemplate.replace("[[WEBSITE]]", jsonFederalReps.objects[cardIndex].person.link.toString());
 	currentTemplate = currentTemplate.replace("[[WEBSITE_DESC]]", "GovTrack");
-	currentTemplate = currentTemplate.replace("[[CONTACT]]", jsonFederalReps.objects[cardIndex].extra.contact_form.toString());
 
 	var imageUrl = "https://theunitedstates.io/images/congress/225x275/"
 	imageUrl += jsonFederalReps.objects[cardIndex].person.bioguideid.toString() + ".jpg";
@@ -249,7 +247,6 @@ function assignStateSenatorCards()
 	currentTemplate = currentTemplate.replace("[[PARTY]]", jsonStateSenate[cardIndex].party.toString());
 	currentTemplate = currentTemplate.replace("[[WEBSITE]]", jsonStateSenate[cardIndex].url.toString());
 	currentTemplate = currentTemplate.replace("[[WEBSITE_DESC]]", "Official Site");
-	currentTemplate = currentTemplate.replace("[[CONTACT]]", "mailto:" + jsonStateSenate[cardIndex].email.toString());
 
 	var imageUrl = jsonStateSenate[cardIndex].photo_url;
 	imageUrl = "src='" + imageUrl + "' width='225px' height='275px'";
@@ -281,7 +278,6 @@ function assignStateRepresentativeCard()
 	currentTemplate = currentTemplate.replace("[[PARTY]]", jsonStateReps[cardIndex].party.toString());
 	currentTemplate = currentTemplate.replace("[[WEBSITE]]", jsonStateReps[cardIndex].url.toString());
 	currentTemplate = currentTemplate.replace("[[WEBSITE_DESC]]", "Official Site");
-	currentTemplate = currentTemplate.replace("[[CONTACT]]", "mailto:" + jsonStateReps[cardIndex].email.toString());
 
 	var imageUrl = jsonStateReps[cardIndex].photo_url;
 	imageUrl = "src='" + imageUrl + "' width='225px' height='275px'";
