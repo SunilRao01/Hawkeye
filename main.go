@@ -21,19 +21,28 @@ type Creds struct {
 ///////////////////
 
 // GovTrack API json struct
-type GovTrack_Chamber struct {
-	Members []GovTrack_Official `json:"objects"`
+type ProPublica_Members struct {
+	Results []ProPublica_Official `json:"results"`,
+	state string `json:"state"`
 }
 
-type GovTrack_Official struct {
+type ProPublica_Official struct {
 	Party string `json:"party"`
 	State string `json:"state"`
-	Phone string `json:"phone"`
-	Description string `json:"description"`
+	ApiUri string `json:"api_uri"`
+	Description string `json:"twitter_id"`
 	EndDate string `json:"enddate"`
 	Website string `json:"website"`
 	ExtraInfo GovTrack_Extra `json:"extra"`
 	MemberInfo GovTrack_Member `json:"person"`
+}
+
+type ProPublica_Member struct {
+	Results []ProPublica_Member
+}
+
+type ProPublica_OfficialInfo struct {
+
 }
 
 type GovTrack_Extra struct {
@@ -73,7 +82,7 @@ func serveFederalStateInfo(url string) http.HandlerFunc {
 		inputState := r.URL.Path[len(r.URL.Path)-2:len(r.URL.Path)]
 		
 		getUrl := url;
-		getUrl += "&state=" + inputState;
+		getUrl += inputState + "/current.json";
 
 		resp, err := http.Get(getUrl);
 
@@ -91,7 +100,8 @@ func serveFederalStateInfo(url string) http.HandlerFunc {
 			return;
 		}
 
-		var jsonReps GovTrack_Chamber;
+		var jsonReps ProPublica_Members;
+
 		err_2 := json.Unmarshal(body, &jsonReps)
 		if err_2 != nil {
 			log.Printf("Error: %v", err_2);
@@ -101,9 +111,51 @@ func serveFederalStateInfo(url string) http.HandlerFunc {
 
 		// Send state reps information response in JSON
 		w.Header().Set("Content-Type", "application/json");
+		w.Header().Set("X-API-Key", credsData.ProPublica_API_Key);
 		json.NewEncoder(w).Encode(jsonReps);
 	}
 }
+
+func serveFederalStateMemberInfo(url string) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		// Query parameters
+		inputMemberId := r.URL.Path[len(r.URL.Path)-7:len(r.URL.Path)]
+		
+		getUrl := url;
+		getUrl += inputState + "json";
+
+		resp, err := http.Get(getUrl);
+
+		if err != nil {
+			log.Println(err.Error());
+			http.Error(w, err.Error(), 500);
+			return;
+		}
+		defer resp.Body.Close()
+
+		body, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			log.Println(err.Error());
+			http.Error(w, err.Error(), 500);
+			return;
+		}
+
+		var jsonReps ProPublica_Member;
+
+		err_2 := json.Unmarshal(body, &jsonReps)
+		if err_2 != nil {
+			log.Printf("Error: %v", err_2);
+			http.Error(w, err.Error(), 500);
+			return;
+		}
+
+		// Send state reps information response in JSON
+		w.Header().Set("Content-Type", "application/json");
+		w.Header().Set("X-API-Key", credsData.ProPublica_API_Key);
+		json.NewEncoder(w).Encode(jsonReps);
+	}
+}
+	
 
 // Serve JSON
 func serveLocalStateInfo(url string) http.HandlerFunc {
@@ -141,6 +193,8 @@ func serveLocalStateInfo(url string) http.HandlerFunc {
 			return;
 		}
 
+		jsonReps.state = inputState;
+
 		// Send state reps information response in JSON
 		w.Header().Set("Content-Type", "application/json");
 		json.NewEncoder(w).Encode(jsonReps);
@@ -177,16 +231,15 @@ func main() {
 	*/
 	credsData := readCredentials("./Creds.txt");
 
-	fmt.Println("API Key From Creds File: " + credsData.ProPublica_API_Key);
-
 	// Serve Home
 	http.HandleFunc("/", serveHome)
 
 	// Serve state information
 	http.HandleFunc("senate/", serveFederalStateInfo("https://api.propublica.org/congress/v1/members/"))
 	http.HandleFunc("house/", serveFederalStateInfo("https://api.propublica.org/congress/v1/members/"))
+	http.HandleFunc("member/", serveFederalStateMemberInfo("https://api.propublica.org/congress/v1/members/"));
 
-	
+	// Serve local info
 	http.HandleFunc("/senators/state/", serveLocalStateInfo("https://openstates.org/api/v1/legislators/?active=true&chamber=upper"))
 	http.HandleFunc("/representatives/state/", serveLocalStateInfo("https://openstates.org/api/v1/legislators/?active=true&chamber=lower"))
 

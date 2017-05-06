@@ -89,7 +89,7 @@ function populateFederalHouseOfRepsUI() {
 	
 	currentRow.className = 'row';
 	var i = 0;
-	for (i = 0; i < jsonFederalReps.objects.length; i++) {
+	for (i = 0; i < jsonFederalReps.results.length; i++) {
 		if (currentRow.childElementCount == 3) {
 			federalHouseOfRepsContainer.appendChild(currentRow);
 
@@ -97,7 +97,7 @@ function populateFederalHouseOfRepsUI() {
 			currentRow.className = 'row';
 			
 			currentRow.appendChild(assignFederalRepresentativeCard());
-		} else if (i == jsonFederalReps.objects.length-1) {
+		} else if (i == jsonFederalReps.results.length-1) {
 			var currentCard = document.createElement('div');
 			currentCard.className = "one-half column";
 			
@@ -163,7 +163,7 @@ function replaceAll(str, find, replace) {
 
 // Legislative JSON Info
 var jsonFederalSenate = {};
-var jsonFederalReps = {};
+var jsonFederalReps results {};
 var jsonStateSenate = {};
 var jsonStateReps = {};
 
@@ -176,22 +176,19 @@ function assignFederalSenatorCards()
 {
 	var currentCard = document.createElement('div');
 	currentCard.className = "one-half column";
-	assignCard(currentCard, jsonFederalSenate.objects, cardIndex);
+	assignCard(currentCard, jsonFederalSenate, cardIndex);
 
 	var currentTemplate = htmlCardPartial.slice();
-	currentTemplate = currentTemplate.replace("[[FIRSTNAME]]", jsonFederalSenate.objects[cardIndex].person.firstname.toString());
-	currentTemplate = currentTemplate.replace("[[LASTNAME]]", jsonFederalSenate.objects[cardIndex].person.lastname.toString());
-	currentTemplate = currentTemplate.replace("[[STATE]]", jsonFederalSenate.objects[cardIndex].state.toString());
-	currentTemplate = currentTemplate.replace("[[PARTY]]", jsonFederalSenate.objects[cardIndex].party.toString());
-	currentTemplate = currentTemplate.replace("[[WEBSITE]]", jsonFederalSenate.objects[cardIndex].person.link.toString());
-	currentTemplate = currentTemplate.replace("[[WEBSITE_DESC]]", "GovTrack");
+	currentTemplate = currentTemplate.replace("[[FIRSTNAME]]", jsonFederalSenate.results[cardIndex].person.firstname.toString());
+	currentTemplate = currentTemplate.replace("[[STATE]]", jsonFederalSenate.state.toString());
+	currentTemplate = currentTemplate.replace("[[PARTY]]", jsonFederalSenate.results[cardIndex].party.toString());
 
 	var imageUrl = "https://theunitedstates.io/images/congress/225x275/"
-	imageUrl += jsonFederalSenate.objects[cardIndex].person.bioguideid.toString() + ".jpg";
+	imageUrl += jsonFederalSenate.results[cardIndex].person.bioguideid.toString() + ".jpg";
 	currentTemplate = currentTemplate.replace("[[IMAGE]]", "src='" + imageUrl + "'");
 
 
-	if (cardIndex < jsonFederalSenate.objects.length-1) {
+	if (cardIndex < jsonFederalSenate.results.length-1) {
 		cardIndex++;
 	} else {
 		cardIndex = 0;
@@ -207,21 +204,21 @@ function assignFederalRepresentativeCard()
 {
 	var currentCard = document.createElement('div');
 	currentCard.className = "one-third column";
-	assignCard(currentCard, jsonFederalReps.objects, cardIndex);
+	assignCard(currentCard, jsonFederalReps.results, cardIndex);
 
 	var currentTemplate = htmlCardPartial.slice();
-	currentTemplate = currentTemplate.replace("[[FIRSTNAME]]", jsonFederalReps.objects[cardIndex].person.firstname.toString());
-	currentTemplate = currentTemplate.replace("[[LASTNAME]]", jsonFederalReps.objects[cardIndex].person.lastname.toString());
-	currentTemplate = currentTemplate.replace("[[STATE]]", jsonFederalReps.objects[cardIndex].state.toString().toUpperCase());
-	currentTemplate = currentTemplate.replace("[[PARTY]]", jsonFederalReps.objects[cardIndex].party.toString());
-	currentTemplate = currentTemplate.replace("[[WEBSITE]]", jsonFederalReps.objects[cardIndex].person.link.toString());
+	currentTemplate = currentTemplate.replace("[[FIRSTNAME]]", jsonFederalReps.results[cardIndex].person.firstname.toString());
+	currentTemplate = currentTemplate.replace("[[LASTNAME]]", jsonFederalReps.results[cardIndex].person.lastname.toString());
+	currentTemplate = currentTemplate.replace("[[STATE]]", jsonFederalReps.results[cardIndex].state.toString().toUpperCase());
+	currentTemplate = currentTemplate.replace("[[PARTY]]", jsonFederalReps.results[cardIndex].party.toString());
+	currentTemplate = currentTemplate.replace("[[WEBSITE]]", jsonFederalReps.results[cardIndex].person.link.toString());
 	currentTemplate = currentTemplate.replace("[[WEBSITE_DESC]]", "GovTrack");
 
 	var imageUrl = "https://theunitedstates.io/images/congress/225x275/"
-	imageUrl += jsonFederalReps.objects[cardIndex].person.bioguideid.toString() + ".jpg";
+	imageUrl += jsonFederalReps.results[cardIndex].person.bioguideid.toString() + ".jpg";
 	currentTemplate = currentTemplate.replace("[[IMAGE]]", "src='" + imageUrl + "'");
 
-	if (cardIndex < jsonFederalReps.objects.length-1) {
+	if (cardIndex < jsonFederalReps.results.length-1) {
 		cardIndex++;
 	} else {
 		cardIndex = 0;
@@ -397,7 +394,7 @@ function setFederalSenateInfo(senateInfo) {
 
 function setFederalRepsInfo(repsInfo) {
 	//console.log("representatives info response: " + repsInfo);
-	jsonFederalReps = JSON.parse(repsInfo);
+	jsonFederalReps results JSON.parse(repsInfo);
 	//console.log(repsInfo);
 	populateFederalHouseOfRepsUI();
 
