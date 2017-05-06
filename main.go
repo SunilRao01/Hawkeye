@@ -5,7 +5,16 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
+	"fmt"
 )
+
+///////////////////
+/// CREDENTIALS ///
+///////////////////
+type Creds struct {
+	ProPublica_API_Key string `json:"ProPublica_API_Key"`
+}
 
 ///////////////////
 /// LEGISLATIVE ///
@@ -144,17 +153,42 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "./public" + r.URL.Path)
 }
 
+func readCredentials(input string) Creds {
+	raw, err := ioutil.ReadFile(input);
+	if (err != nil) {
+		fmt.Println(err.Error());
+		os.Exit(1);
+	}
+
+	var c Creds
+	json.Unmarshal(raw, &c)
+	return c
+}
+
 func main() {
+	os.Setenv("PORT", "8080");
+
+	// IMPORTANT NOTE: All Credentials (API Key, user, pw) are read from a file './Creds.txt'
+	// You will have to create you own with the following text:
+	/*
+		{
+			"ProPublica API Key": "[Insert ProPublica key here]"
+		}
+	*/
+	credsData := readCredentials("./Creds.txt");
+
+	fmt.Println("API Key From Creds File: " + credsData.ProPublica_API_Key);
+
 	// Serve Home
 	http.HandleFunc("/", serveHome)
 
 	// Serve state information
-	http.HandleFunc("/senators/federal/", serveFederalStateInfo("https://www.govtrack.us/api/v2/role?current=true&role_type=senator"))
-	http.HandleFunc("/representatives/federal/", serveFederalStateInfo("https://www.govtrack.us/api/v2/role?current=true&role_type=representative"))
+	http.HandleFunc("senate/", serveFederalStateInfo("https://api.propublica.org/congress/v1/members/"))
+	http.HandleFunc("house/", serveFederalStateInfo("https://api.propublica.org/congress/v1/members/"))
 
 	
 	http.HandleFunc("/senators/state/", serveLocalStateInfo("https://openstates.org/api/v1/legislators/?active=true&chamber=upper"))
 	http.HandleFunc("/representatives/state/", serveLocalStateInfo("https://openstates.org/api/v1/legislators/?active=true&chamber=lower"))
 
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":" + os.Getenv("PORT"), nil)
 }
