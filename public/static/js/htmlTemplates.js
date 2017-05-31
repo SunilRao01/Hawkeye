@@ -1,6 +1,6 @@
 var htmlCardPartial = 
 `
-  <h4 class="card-name">[[FIRSTNAME]] [[LASTNAME]]</h4>
+  <h4 class="card-name">[[FIRSTNAME]]</h4>
   <h6 class="card-state">[[STATE]]</h6>
   <center><img class="u-max-full-width card-image" [[IMAGE]]></center>
   <div class="container">

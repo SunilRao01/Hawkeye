@@ -20,6 +20,8 @@ function populateFederalSenateUI() {
 	newCard.innerHTML = htmlCardPartial;
 	currentRow.className = 'row';
 	currentRow.id = 'row';
+
+	// Set up HTML for both senators 
 	currentRow.appendChild(assignFederalSenatorCards());
 	currentRow.appendChild(assignFederalSenatorCards());
 
@@ -163,7 +165,7 @@ function replaceAll(str, find, replace) {
 
 // Legislative JSON Info
 var jsonFederalSenate = {};
-var jsonFederalReps results {};
+var jsonFederalReps = {};
 var jsonStateSenate = {};
 var jsonStateReps = {};
 
@@ -179,16 +181,27 @@ function assignFederalSenatorCards()
 	assignCard(currentCard, jsonFederalSenate, cardIndex);
 
 	var currentTemplate = htmlCardPartial.slice();
-	currentTemplate = currentTemplate.replace("[[FIRSTNAME]]", jsonFederalSenate.results[cardIndex].person.firstname.toString());
-	currentTemplate = currentTemplate.replace("[[STATE]]", jsonFederalSenate.state.toString());
-	currentTemplate = currentTemplate.replace("[[PARTY]]", jsonFederalSenate.results[cardIndex].party.toString());
+	currentTemplate = currentTemplate.replace("[[FIRSTNAME]]", jsonFederalSenate[cardIndex].name.toString());
+	currentTemplate = currentTemplate.replace("[[STATE]]", jsonFederalSenate[cardIndex].state.toString());
+
+	// Use full party name
+	let partyName = jsonFederalSenate[cardIndex].party;
+	if (partyName === 'D') {
+		partyName = "Democrat";
+	} else if (partyName === 'R') {
+		partyname = "Republican";
+	} else {
+		partyName = "Independent";
+	}
+	jsonFederalSenate[cardIndex].party = partyName;
+
+	currentTemplate = currentTemplate.replace("[[PARTY]]", jsonFederalSenate[cardIndex].party.toString());
 
 	var imageUrl = "https://theunitedstates.io/images/congress/225x275/"
-	imageUrl += jsonFederalSenate.results[cardIndex].person.bioguideid.toString() + ".jpg";
+	imageUrl += jsonFederalSenate[cardIndex].id.toString() + ".jpg";
 	currentTemplate = currentTemplate.replace("[[IMAGE]]", "src='" + imageUrl + "'");
 
-
-	if (cardIndex < jsonFederalSenate.results.length-1) {
+	if (cardIndex < jsonFederalSenate.length-1) {
 		cardIndex++;
 	} else {
 		cardIndex = 0;
@@ -294,11 +307,11 @@ function assignStateRepresentativeCard()
 
 function assignCard(card, json, index)
 {
-	if (json[index].party == "Republican") {
+	if (json[index].party === "Republican" || json[index].party === "R") {
 		card.className += " card-R ";
-	} else if (json[index].party == "Democratic" || json[index].party == "Democrat") {
+	} else if (json[index].party === "Democratic" || json[index].party === "Democrat" || json[index].party === "D") {
 		card.className += " card-D ";
-	} else if (json[index].party == "Independent") {
+	} else if (json[index].party === "Independent" || json[index].party === "I") {
 		card.className += " card-I ";
 	}
 }
@@ -329,8 +342,8 @@ function getResults() {
 	// Send HTTP GET requests to server side
 	// LEGISLATIVE
 	// FEDERAL
-	httpGetAsync("/senators/federal/" + state, setFederalSenateInfo);
-	httpGetAsync("/representatives/federal/" + state, setFederalRepsInfo);
+	httpGetAsync("/senate/federal/" + state, setFederalSenateInfo);
+	//httpGetAsync("/house/federal/" + state, setFederalRepsInfo);
 
 	
 }
@@ -394,7 +407,7 @@ function setFederalSenateInfo(senateInfo) {
 
 function setFederalRepsInfo(repsInfo) {
 	//console.log("representatives info response: " + repsInfo);
-	jsonFederalReps results JSON.parse(repsInfo);
+	jsonFederalReps = JSON.parse(repsInfo);
 	//console.log(repsInfo);
 	populateFederalHouseOfRepsUI();
 
