@@ -348,7 +348,7 @@ func main() {
 	// Serve state information
 	http.HandleFunc("/senate/federal/", serveFederalStateInfo("https://api.propublica.org/congress/v1/members/senate/"))
 	http.HandleFunc("/house/federal/", serveFederalStateInfo("https://api.propublica.org/congress/v1/members/house/"))
-	http.HandleFunc("member/", serveFederalStateMemberInfo("https://api.propublica.org/congress/v1/members/"));
+	http.HandleFunc("/member/", serveFederalStateMemberInfo("https://api.propublica.org/congress/v1/members/"));
 
 	// Serve local info
 	http.HandleFunc("/senate/state/", serveLocalStateInfo("https://openstates.org/api/v1/legislators/?active=true&chamber=upper"))

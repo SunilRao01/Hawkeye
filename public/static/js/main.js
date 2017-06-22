@@ -181,11 +181,24 @@ function assignFederalSenatorCards()
 	assignCard(currentCard, jsonFederalSenate, cardIndex);
 
 	var currentTemplate = htmlCardPartial.slice();
-	currentTemplate = currentTemplate.replace("[[FIRSTNAME]]", jsonFederalSenate[cardIndex].name.toString());
-	currentTemplate = currentTemplate.replace("[[STATE]]", jsonFederalSenate[cardIndex].state.toString());
+	var currentMember = jsonFederalSenate[cardIndex];
+	console.log("CURRENT MEMBER");
+	console.log(currentMember);
+	console.log("PHONE: " + currentMember.roles[0].phone);
+
+	currentTemplate = currentTemplate.replace("[[FIRSTNAME]]", (currentMember.first_name.toString() + " " + currentMember.last_name.toString()));
+	currentTemplate = currentTemplate.replace("[[STATE]]", currentMember.roles[0].state.toString());
+	currentTemplate = currentTemplate.replace("[[WEBSITE]]", currentMember.url.toString());
+	currentTemplate = currentTemplate.replace("[[WEBSITE_LABEL]]", "Official");
+
+	var phoneRaw = currentMember.roles[0].phone;
+	phoneRaw = replaceAll(phoneRaw, "-", "");
+
+	currentTemplate = currentTemplate.replace("[[PHONE_NUMBER]]", phoneRaw);
+	currentTemplate = currentTemplate.replace("[[PHONE_NUMBER]]", currentMember.roles[0].phone);
 
 	// Use full party name
-	let partyName = jsonFederalSenate[cardIndex].party;
+	let partyName = currentMember.current_party;
 	if (partyName === 'D') {
 		partyName = "Democrat";
 	} else if (partyName === 'R') {
@@ -193,12 +206,12 @@ function assignFederalSenatorCards()
 	} else {
 		partyName = "Independent";
 	}
-	jsonFederalSenate[cardIndex].party = partyName;
+	currentMember.current_party = partyName;
 
-	currentTemplate = currentTemplate.replace("[[PARTY]]", jsonFederalSenate[cardIndex].party.toString());
+	currentTemplate = currentTemplate.replace("[[PARTY]]", currentMember.current_party.toString());
 
 	var imageUrl = "https://theunitedstates.io/images/congress/225x275/"
-	imageUrl += jsonFederalSenate[cardIndex].id.toString() + ".jpg";
+	imageUrl += currentMember.member_id.toString() + ".jpg";
 	currentTemplate = currentTemplate.replace("[[IMAGE]]", "src='" + imageUrl + "'");
 
 	if (cardIndex < jsonFederalSenate.length-1) {
@@ -223,9 +236,9 @@ function assignFederalRepresentativeCard()
 	currentTemplate = currentTemplate.replace("[[FIRSTNAME]]", jsonFederalReps.results[cardIndex].person.firstname.toString());
 	currentTemplate = currentTemplate.replace("[[LASTNAME]]", jsonFederalReps.results[cardIndex].person.lastname.toString());
 	currentTemplate = currentTemplate.replace("[[STATE]]", jsonFederalReps.results[cardIndex].state.toString().toUpperCase());
-	currentTemplate = currentTemplate.replace("[[PARTY]]", jsonFederalReps.results[cardIndex].party.toString());
-	currentTemplate = currentTemplate.replace("[[WEBSITE]]", jsonFederalReps.results[cardIndex].person.link.toString());
-	currentTemplate = currentTemplate.replace("[[WEBSITE_DESC]]", "GovTrack");
+	currentTemplate = currentTemplate.replace("[[PARTY]]", jsonFederalReps.results[cardIndex].current_party.toString());
+	currentTemplate = currentTemplate.replace("[[WEBSITE]]", jsonFederalReps.results[cardIndex].url.toString());
+	currentTemplate = currentTemplate.replace("[[WEBSITE_LABEL]]", "Official");
 
 	var imageUrl = "https://theunitedstates.io/images/congress/225x275/"
 	imageUrl += jsonFederalReps.results[cardIndex].person.bioguideid.toString() + ".jpg";
@@ -254,9 +267,9 @@ function assignStateSenatorCards()
 	currentTemplate = currentTemplate.replace("[[FIRSTNAME]]", jsonStateSenate[cardIndex].first_name.toString());
 	currentTemplate = currentTemplate.replace("[[LASTNAME]]", jsonStateSenate[cardIndex].last_name.toString());
 	currentTemplate = currentTemplate.replace("[[STATE]]", jsonStateSenate[cardIndex].state.toString().toUpperCase());
-	currentTemplate = currentTemplate.replace("[[PARTY]]", jsonStateSenate[cardIndex].party.toString());
+	currentTemplate = currentTemplate.replace("[[PARTY]]", jsonStateSenate[cardIndex].current_party.toString());
 	currentTemplate = currentTemplate.replace("[[WEBSITE]]", jsonStateSenate[cardIndex].url.toString());
-	currentTemplate = currentTemplate.replace("[[WEBSITE_DESC]]", "Official Site");
+	currentTemplate = currentTemplate.replace("[[WEBSITE_LABEL]]", "Official Site");
 
 	var imageUrl = jsonStateSenate[cardIndex].photo_url;
 	imageUrl = "src='" + imageUrl + "' width='225px' height='275px'";
@@ -285,7 +298,7 @@ function assignStateRepresentativeCard()
 	currentTemplate = currentTemplate.replace("[[FIRSTNAME]]", jsonStateReps[cardIndex].first_name.toString());
 	currentTemplate = currentTemplate.replace("[[LASTNAME]]", jsonStateReps[cardIndex].last_name.toString());
 	currentTemplate = currentTemplate.replace("[[STATE]]", jsonStateReps[cardIndex].state.toString().toUpperCase());
-	currentTemplate = currentTemplate.replace("[[PARTY]]", jsonStateReps[cardIndex].party.toString());
+	currentTemplate = currentTemplate.replace("[[PARTY]]", jsonStateReps[cardIndex].current_party.toString());
 	currentTemplate = currentTemplate.replace("[[WEBSITE]]", jsonStateReps[cardIndex].url.toString());
 	currentTemplate = currentTemplate.replace("[[WEBSITE_DESC]]", "Official Site");
 
@@ -307,12 +320,14 @@ function assignStateRepresentativeCard()
 
 function assignCard(card, json, index)
 {
-	if (json[index].party === "Republican" || json[index].party === "R") {
+	if (json[index].current_party === "Republican" || json[index].current_party === "R") {
 		card.className += " card-R ";
-	} else if (json[index].party === "Democratic" || json[index].party === "Democrat" || json[index].party === "D") {
+	} else if (json[index].current_party === "Democratic" || json[index].current_party === "Democrat" || json[index].current_party === "D") {
 		card.className += " card-D ";
-	} else if (json[index].party === "Independent" || json[index].party === "I") {
+	} else if (json[index].current_party === "Independent" || json[index].current_party === "I") {
 		card.className += " card-I ";
+	} else {
+		card.className += "ERROR CARD ";
 	}
 }
 
@@ -337,6 +352,7 @@ function getResults() {
 	// Retrite selected option
 	var index = document.getElementById("state").selectedIndex;
 	var state = document.getElementById("state").options[index].value;
+
 	//console.log(state);
 
 	// Send HTTP GET requests to server side
@@ -395,14 +411,36 @@ function setFederalSenateInfo(senateInfo) {
 	//console.log("senate info: " + senateInfo);
 	jsonFederalSenate = JSON.parse(senateInfo);
 
-	populateFederalSenateUI();
+	httpGetAsync("/member/" + jsonFederalSenate[0].member_id, setFederalSenatorInfo);
+}
 
-	// Enable Senator parent UI
-	document.getElementById('branch').style.opacity = 1;
-	document.getElementById('scopeBranch1').style.opacity = 1;
+var fsCount = 0;
+var federalSenators = [];
 
-	// Enable Senators UI
-	document.getElementById('groupBranch1').style.opacity = 1;
+function setFederalSenatorInfo(senatorInfo) {
+	var currentSenator = senatorInfo;
+	currentSenator.id = jsonFederalSenate[fsCount].id;
+	federalSenators[fsCount] = currentSenator;
+	
+
+	fsCount++;
+
+
+
+	if (fsCount == 1) {
+		httpGetAsync("/member/" + jsonFederalSenate[fsCount].id, setFederalSenatorInfo);
+	} else {
+		populateFederalSenateUI();
+
+		// Enable Senator parent UI
+		document.getElementById('branch').style.opacity = 1;
+		document.getElementById('scopeBranch1').style.opacity = 1;
+
+		// Enable Senators UI
+		document.getElementById('groupBranch1').style.opacity = 1;
+	}
+
+	
 }
 
 function setFederalRepsInfo(repsInfo) {

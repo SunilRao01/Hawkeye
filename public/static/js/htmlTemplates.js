@@ -11,7 +11,12 @@ var htmlCardPartial =
     <hr>
     <div class="row">
       <p class="one-half column card-label">Information:</p>
-      <a href="[[WEBSITE]]" target="_blank" class="one-half column card-description">[[WEBSITE_DESC]]</a>
+      <a href="[[WEBSITE]]" target="_blank" class="one-half column card-description">[[WEBSITE_LABEL]]</a>
+    </div>
+    <hr>
+    <div class="row">
+      <p class="one-half column card-label">Phone:</p>
+      <a href="tel:+[[PHONE_NUMBER]]" class="one-half column card-description">[[PHONE_NUMBER]]</a>
     </div>
   </div>
 `;

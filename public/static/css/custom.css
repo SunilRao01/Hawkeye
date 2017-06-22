@@ -66,7 +66,7 @@ hr {
   color: white;
   border-spacing: 5px;
   margin-top: 10px;
-  height: 450px;
+  height: 500px;
   width: 80%;
   display: block;
   text-shadow: 1px 1px 2px black;
@@ -100,7 +100,7 @@ hr {
   font-weight: normal; }
 
 .card-name {
-  padding-top: 5px;
+  margin-top: 20px;
   overflow: hidden;
   white-space: nowrap; }
 
