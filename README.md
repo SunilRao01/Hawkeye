@@ -14,5 +14,3 @@ The frameworks used are:
 Public APIs used for data:
 - <a href="https://openstates.org/" target="_blank">Open States</a>
 - <a href="https://www.govtrack.us/" target="_blank">GovTrack</a>
-
-You can try out the application in its current state over <a href="http://ec2-54-148-22-164.us-west-2.compute.amazonaws.com:8080/" target="_blank">here</a>.
